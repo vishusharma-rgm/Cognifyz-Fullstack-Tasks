@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="form-layout">
+        <header class="hero-card title-card">
+          <div class="title-bar"></div>
+          <p class="eyebrow">Cognifyz Internship Task 1</p>
+          <h1>Internship Registration Form</h1>
+          <p class="intro">
+            We are excited to learn more about you. Please complete the form
+            below with accurate details and a short note about your interest in
+            this internship opportunity.
+          </p>
+          <div class="form-meta">
+            <span>Application details</span>
+            <span>Response recorded securely</span>
+          </div>
+        </header>
+
+        <% if (errors.length > 0) { %>
+          <section class="alert-box" role="alert">
+            <h2>Please fix the following:</h2>
+            <ul>
+              <% errors.forEach((error) => { %>
+                <li><%= error %></li>
+              <% }) %>
+            </ul>
+          </section>
+        <% } %>
+
+        <form action="/submit" method="POST" class="user-form">
+          <section class="question-card">
+            <div class="field-group">
+              <label for="fullName">Full Name <span class="required-star">*</span></label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="Your answer"
+                value="<%= formData.fullName %>"
+              />
+            </div>
+          </section>
+
+          <section class="question-card">
+            <div class="field-group">
+              <label for="email">Email Address <span class="required-star">*</span></label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Your answer"
+                value="<%= formData.email %>"
+              />
+            </div>
+          </section>
+
+          <section class="question-card">
+            <div class="field-group">
+              <label for="role">Current Role <span class="required-star">*</span></label>
+              <select id="role" name="role">
+                <option value="">Choose one</option>
+                <option value="Student" <%= formData.role === "Student" ? "selected" : "" %>>
+                  Student
+                </option>
+                <option value="Intern" <%= formData.role === "Intern" ? "selected" : "" %>>
+                  Intern
+                </option>
+                <option value="Fresher" <%= formData.role === "Fresher" ? "selected" : "" %>>
+                  Fresher
+                </option>
+                <option value="Working Professional" <%= formData.role === "Working Professional" ? "selected" : "" %>>
+                  Working Professional
+                </option>
+              </select>
+            </div>
+          </section>
+
+          <section class="question-card">
+            <div class="field-group">
+              <label for="message">
+                Why do you want to join this internship?
+                <span class="required-star">*</span>
+              </label>
+              <p class="field-help">
+                Share your interest, goals, and what you want to learn.
+              </p>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                placeholder="Your answer"
+              ><%= formData.message %></textarea>
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <button type="submit">Submit</button>
+            <p>Never submit passwords through forms.</p>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

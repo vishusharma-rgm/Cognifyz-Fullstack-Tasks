@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="form-layout">
+        <header class="hero-card title-card success-card">
+          <div class="title-bar"></div>
+          <p class="eyebrow">Server-Side Rendering Success</p>
+          <h1>Submission Received</h1>
+          <p class="intro">
+            Your form was submitted successfully and rendered by the server at
+            <strong><%= submittedAt %></strong>.
+          </p>
+        </header>
+
+        <section class="hero-card answer-card">
+          <div class="summary-grid">
+            <article>
+              <span>Full Name</span>
+              <strong><%= formData.fullName %></strong>
+            </article>
+            <article>
+              <span>Email Address</span>
+              <strong><%= formData.email %></strong>
+            </article>
+            <article>
+              <span>Current Role</span>
+              <strong><%= formData.role %></strong>
+            </article>
+            <article class="full-width">
+              <span>Message</span>
+              <p><%= formData.message %></p>
+            </article>
+          </div>
+
+          <div class="form-actions">
+            <a class="secondary-button" href="/">Submit another response</a>
+            <p>Response recorded successfully.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="form-layout">
+        <header class="hero-card title-card success-card">
+          <div
+            class="title-bar"
+            style="background: linear-gradient(90deg, #1f8f55, #46b97a);"
+          ></div>
+          <p class="eyebrow">Server-Side Validation Success</p>
+          <h1>Submission Received</h1>
+          <p class="intro">
+            Your form passed client-side checks, was validated on the server,
+            and was stored in temporary memory at
+            <strong><%= submittedAt %></strong>.
+          </p>
+          <div class="form-meta">
+            <span>Temporary records: <%= totalSubmissions %></span>
+            <span>Submission ID: #<%= formData.id %></span>
+            <span>Preferred track: <%= formData.track %></span>
+          </div>
+        </header>
+
+        <section
+          class="hero-card info-panel"
+          style="margin-bottom: 16px; border-left: 4px solid #1f8f55;"
+        >
+          <div>
+            <strong>Storage note:</strong>
+            this data is currently held in temporary server-side memory for demo
+            purposes and will be cleared whenever the server restarts.
+          </div>
+        </section>
+
+        <section class="hero-card answer-card">
+          <div class="section-heading">
+            <h2>Validated application summary</h2>
+            <span class="status-pill" style="background: #e6f4ea; color: #1f5f1f;">
+              Validation complete
+            </span>
+          </div>
+
+          <div class="summary-grid">
+            <article>
+              <span>Full Name</span>
+              <strong><%= formData.fullName %></strong>
+            </article>
+            <article>
+              <span>Email Address</span>
+              <strong><%= formData.email %></strong>
+            </article>
+            <article>
+              <span>Contact Number</span>
+              <strong><%= formData.phone %></strong>
+            </article>
+            <article>
+              <span>Current Role</span>
+              <strong><%= formData.role %></strong>
+            </article>
+            <article>
+              <span>Preferred Track</span>
+              <strong><%= formData.track %></strong>
+            </article>
+            <article>
+              <span>Work Mode</span>
+              <strong><%= formData.workMode %></strong>
+            </article>
+            <article>
+              <span>Availability</span>
+              <strong><%= formData.availability %></strong>
+            </article>
+            <article>
+              <span>Newsletter</span>
+              <strong><%= formData.newsletter ? "Subscribed" : "Not subscribed" %></strong>
+            </article>
+            <article class="full-width">
+              <span>Skills</span>
+              <p><%= formData.skills.join(", ") %></p>
+            </article>
+            <article class="full-width">
+              <span>Portfolio Link</span>
+              <p><%= formData.portfolio || "No portfolio link provided." %></p>
+            </article>
+            <article class="full-width">
+              <span>Motivation Message</span>
+              <p><%= formData.message %></p>
+            </article>
+          </div>
+
+          <div class="form-actions">
+            <a class="secondary-button" href="/">Submit another response</a>
+            <p>Validated data is now available in temporary server-side storage.</p>
+          </div>
+        </section>
+
+      </section>
+    </main>
+  </body>
+</html>
