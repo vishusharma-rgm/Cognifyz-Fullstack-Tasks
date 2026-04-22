@@ -2,7 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const revealElements = document.querySelectorAll("[data-reveal]");
   const timelineWrappers = document.querySelectorAll(".timeline-wrapper");
   const heroParallax = document.querySelector(".hero-parallax");
+  const heroOrbs = document.querySelectorAll(".hero-orb");
   const contactForm = document.getElementById("contactForm");
+  const tiltCards = document.querySelectorAll(".content-card, .timeline-card");
 
   if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver(
@@ -50,8 +52,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (heroParallax) {
     window.addEventListener("scroll", function () {
-      const offset = Math.min(window.scrollY * 0.12, 36);
+      const offset = Math.min(window.scrollY * 0.08, 24);
       heroParallax.style.transform = "translateY(" + offset + "px)";
+
+      heroOrbs.forEach(function (orb, index) {
+        const movement = Math.min(window.scrollY * (index === 0 ? 0.04 : 0.06), 18);
+        orb.style.transform = "translateY(" + movement + "px)";
+      });
+    });
+  }
+
+  if (window.matchMedia("(hover: hover)").matches) {
+    tiltCards.forEach(function (card) {
+      card.addEventListener("mousemove", function (event) {
+        const rect = card.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const offsetY = event.clientY - rect.top;
+        const rotateY = ((offsetX / rect.width) - 0.5) * 5;
+        const rotateX = (0.5 - (offsetY / rect.height)) * 5;
+
+        card.style.setProperty("--card-rotate-x", rotateX.toFixed(2) + "deg");
+        card.style.setProperty("--card-rotate-y", rotateY.toFixed(2) + "deg");
+      });
+
+      card.addEventListener("mouseleave", function () {
+        card.style.setProperty("--card-rotate-x", "0deg");
+        card.style.setProperty("--card-rotate-y", "0deg");
+      });
     });
   }
 
