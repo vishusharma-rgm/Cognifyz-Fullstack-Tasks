@@ -27,7 +27,8 @@ test("index view renders the responsive landing content", async () => {
   const html = await renderView("index", app.buildHomePageModel());
 
   assert.match(html, /Frontend website layout for a small service company/);
-  assert.match(html, /timeline-section/);
+  assert.match(html, /Our frontend development services/);
+  assert.match(html, /service-card/);
   assert.match(html, /Level 2 Intermediate Task 3/);
 });
 

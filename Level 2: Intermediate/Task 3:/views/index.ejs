@@ -39,7 +39,6 @@
             <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
             <li class="nav-item"><a class="nav-link" href="#process">Work Process</a></li>
             <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
           </ul>
         </div>
       </div>
@@ -52,36 +51,37 @@
             <div class="col-lg-8 text-center">
               <p class="section-label">Level 2 Intermediate Task 3</p>
               <h1 class="page-title">Frontend website layout for a small service company</h1>
+              <p class="lead-text mx-auto">
+                This project shows a clean multi-section website using Bootstrap,
+                custom CSS, responsive layout, and a simple work-process timeline.
+              </p>
               <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-4">
                 <a href="#services" class="btn btn-primary">View Services</a>
-                <a href="/about" class="btn btn-outline-secondary">About Company</a>
+                <a href="#contact" class="btn btn-outline-secondary">Contact Team</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services" class="page-section border-bottom timeline-section">
+      <section id="services" class="page-section border-bottom">
         <div class="container">
           <div class="row justify-content-center mb-4">
             <div class="col-lg-8 text-center">
               <p class="section-label">Services</p>
               <h2 class="section-title">Our frontend development services</h2>
               <p class="section-text">
-                These service steps are shown in a vertical timeline to make the
-                section more structured and visually clear.
+                We focus on practical frontend work such as layout planning,
+                responsive design, and clean Bootstrap-based implementation.
               </p>
             </div>
           </div>
 
-          <div class="timeline-wrapper">
-            <div class="timeline-line"></div>
-            <div class="timeline-line-fill"></div>
-
-            <% serviceCards.forEach((card, index) => { const isLeft = index % 2 === 0; %>
-              <div class="timeline-item <%= isLeft ? 'timeline-left' : 'timeline-right' %>">
-                <div class="timeline-step"><%= card.badge %></div>
-                <div class="timeline-card reveal-card">
+          <div class="row g-4">
+            <% serviceCards.forEach((card) => { %>
+              <div class="col-md-6 col-lg-4">
+                <div class="service-card reveal-card h-100">
+                  <p class="service-number mb-2"><%= card.badge %></p>
                   <h3 class="h5 mb-2"><%= card.title %></h3>
                   <p class="mb-0"><%= card.description %></p>
                 </div>
@@ -98,8 +98,8 @@
               <p class="section-label">Work Process</p>
               <h2 class="section-title">How we complete a frontend project</h2>
               <p class="section-text">
-                A simple workflow timeline showing the main stages from planning
-                to delivery.
+                A simple vertical timeline is used here to explain how a typical
+                frontend project moves from planning to final delivery.
               </p>
             </div>
           </div>
