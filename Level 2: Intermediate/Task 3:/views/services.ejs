@@ -37,8 +37,8 @@
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav nav-center mx-auto">
               <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-              <li class="nav-item"><a class="nav-link active" href="/about">About</a></li>
-              <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+              <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+              <li class="nav-item"><a class="nav-link active" href="/services">Services</a></li>
               <li class="nav-item"><a class="nav-link" href="/process">Work</a></li>
               <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
@@ -51,10 +51,10 @@
       <section class="page-top-section">
         <div class="container">
           <div class="section-heading text-center" data-reveal="up">
-            <p class="section-tag">About</p>
-            <h1>About Cognifyz Solutions</h1>
+            <p class="section-tag">Services</p>
+            <h1>Frontend services</h1>
             <p>
-              A clean business-style about page with company details and animated stats.
+              A dedicated services page with a clean grid layout and subtle hover motion.
             </p>
           </div>
         </div>
@@ -62,34 +62,15 @@
 
       <section class="content-section">
         <div class="container">
-          <div class="row g-4 align-items-start">
-            <div class="col-lg-7" data-reveal="up">
-              <div class="content-card large-card">
-                <h2 class="h4">Who we are</h2>
-                <p>
-                  Cognifyz Solutions is presented as a frontend-focused digital company
-                  that helps businesses build responsive websites and clean user interfaces.
-                </p>
-                <ul class="content-list">
-                  <% aboutHighlights.forEach((item) => { %>
-                    <li><%= item %></li>
-                  <% }) %>
-                </ul>
+          <div class="row g-4">
+            <% serviceCards.forEach((service) => { %>
+              <div class="col-md-6 col-lg-4" data-reveal="up">
+                <article class="content-card service-grid-card h-100">
+                  <h2 class="h5"><%= service.title %></h2>
+                  <p class="mb-0"><%= service.description %></p>
+                </article>
               </div>
-            </div>
-
-            <div class="col-lg-5">
-              <div class="row g-3">
-                <% aboutStats.forEach((stat) => { %>
-                  <div class="col-12" data-reveal="up">
-                    <div class="content-card stat-card">
-                      <strong><%= stat.value %></strong>
-                      <span><%= stat.label %></span>
-                    </div>
-                  </div>
-                <% }) %>
-              </div>
-            </div>
+            <% }) %>
           </div>
         </div>
       </section>
@@ -103,7 +84,7 @@
         </div>
         <div class="footer-links">
           <a href="/">Home</a>
-          <a href="/services">Services</a>
+          <a href="/about">About</a>
           <a href="/process">Work</a>
           <a href="/contact">Contact</a>
         </div>

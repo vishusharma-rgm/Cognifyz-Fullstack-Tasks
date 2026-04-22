@@ -37,9 +37,9 @@
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav nav-center mx-auto">
               <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-              <li class="nav-item"><a class="nav-link active" href="/about">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
               <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
-              <li class="nav-item"><a class="nav-link" href="/process">Work</a></li>
+              <li class="nav-item"><a class="nav-link active" href="/process">Work</a></li>
               <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
           </div>
@@ -51,45 +51,30 @@
       <section class="page-top-section">
         <div class="container">
           <div class="section-heading text-center" data-reveal="up">
-            <p class="section-tag">About</p>
-            <h1>About Cognifyz Solutions</h1>
+            <p class="section-tag">Timeline</p>
+            <h1>Project work process</h1>
             <p>
-              A clean business-style about page with company details and animated stats.
+              A clean vertical timeline with alternating cards, centered line, and subtle scroll animation.
             </p>
           </div>
         </div>
       </section>
 
-      <section class="content-section">
+      <section class="content-section process-page-section">
         <div class="container">
-          <div class="row g-4 align-items-start">
-            <div class="col-lg-7" data-reveal="up">
-              <div class="content-card large-card">
-                <h2 class="h4">Who we are</h2>
-                <p>
-                  Cognifyz Solutions is presented as a frontend-focused digital company
-                  that helps businesses build responsive websites and clean user interfaces.
-                </p>
-                <ul class="content-list">
-                  <% aboutHighlights.forEach((item) => { %>
-                    <li><%= item %></li>
-                  <% }) %>
-                </ul>
-              </div>
-            </div>
+          <div class="timeline-wrapper" data-reveal="up">
+            <div class="timeline-line"></div>
+            <div class="timeline-line-fill"></div>
 
-            <div class="col-lg-5">
-              <div class="row g-3">
-                <% aboutStats.forEach((stat) => { %>
-                  <div class="col-12" data-reveal="up">
-                    <div class="content-card stat-card">
-                      <strong><%= stat.value %></strong>
-                      <span><%= stat.label %></span>
-                    </div>
-                  </div>
-                <% }) %>
+            <% processSteps.forEach((step, index) => { const isLeft = index % 2 === 0; %>
+              <div class="timeline-item <%= isLeft ? 'timeline-left' : 'timeline-right' %>">
+                <div class="timeline-dot"><%= step.step %></div>
+                <article class="timeline-card" data-reveal="up">
+                  <h2 class="h5 mb-2"><%= step.title %></h2>
+                  <p class="mb-0"><%= step.description %></p>
+                </article>
               </div>
-            </div>
+            <% }) %>
           </div>
         </div>
       </section>
@@ -103,8 +88,8 @@
         </div>
         <div class="footer-links">
           <a href="/">Home</a>
+          <a href="/about">About</a>
           <a href="/services">Services</a>
-          <a href="/process">Work</a>
           <a href="/contact">Contact</a>
         </div>
       </div>

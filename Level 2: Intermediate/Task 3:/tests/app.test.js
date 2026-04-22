@@ -16,25 +16,47 @@ function renderView(view, data) {
   });
 }
 
-test("homepage model includes the responsive content blocks", () => {
+test("home page model includes features, timeline steps, and testimonials", () => {
   const model = app.buildHomePageModel();
 
-  assert.equal(model.serviceCards.length, 3);
-  assert.equal(model.processSteps.length, 3);
+  assert.equal(model.featureCards.length, 3);
+  assert.equal(model.processSteps.length, 4);
+  assert.equal(model.testimonials.length, 2);
 });
 
-test("index view renders the responsive landing content", async () => {
+test("home page renders the hero, services preview, and timeline", async () => {
   const html = await renderView("index", app.buildHomePageModel());
 
-  assert.match(html, /Frontend website layout for a small service company/);
-  assert.match(html, /Our frontend development services/);
-  assert.match(html, /service-card/);
-  assert.match(html, /Level 2 Intermediate Task 3/);
+  assert.match(html, /Modern frontend solutions for practical business websites/);
+  assert.match(html, /timeline-wrapper/);
+  assert.match(html, /Explore Services/);
 });
 
-test("about view renders the separate about page", async () => {
+test("about page renders company information and stats", async () => {
   const html = await renderView("about", app.buildAboutPageModel());
 
   assert.match(html, /About Cognifyz Solutions/);
-  assert.match(html, /Back to Home/);
+  assert.match(html, /Project layouts created/);
+});
+
+test("services page renders service grid cards", async () => {
+  const html = await renderView("services", app.buildServicesPageModel());
+
+  assert.match(html, /Frontend services/);
+  assert.match(html, /service-grid-card/);
+});
+
+test("process page renders the vertical timeline", async () => {
+  const html = await renderView("process", app.buildProcessPageModel());
+
+  assert.match(html, /Project work process/);
+  assert.match(html, /timeline-dot/);
+});
+
+test("contact page renders the validated contact form", async () => {
+  const html = await renderView("contact", app.buildContactPageModel());
+
+  assert.match(html, /Let’s discuss your frontend project/);
+  assert.match(html, /contactForm/);
+  assert.match(html, /form-error/);
 });

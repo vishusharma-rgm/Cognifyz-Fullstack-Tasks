@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -19,154 +19,164 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-white border-bottom">
-      <div class="container">
-        <a class="navbar-brand fw-semibold" href="/">Cognifyz Solutions</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNav"
-          aria-controls="mainNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mainNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#top">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-            <li class="nav-item"><a class="nav-link" href="#process">Work Process</a></li>
-            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          </ul>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-lg sticky-top navbar-shell">
+        <div class="container">
+          <a class="navbar-brand brand-name" href="/">Cognifyz Solutions</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNav"
+            aria-controls="mainNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav nav-center mx-auto">
+              <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+              <li class="nav-item"><a class="nav-link" href="/process">Work</a></li>
+              <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
 
     <main>
-      <section id="top" class="page-section border-bottom">
+      <section class="hero-section">
         <div class="container">
           <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-              <p class="section-label">Level 2 Intermediate Task 3</p>
-              <h1 class="page-title">Frontend website layout for a small service company</h1>
-              <p class="lead-text mx-auto">
-                This project shows a clean multi-section website using Bootstrap,
-                custom CSS, responsive layout, and a simple work-process timeline.
+            <div class="col-lg-8 text-center" data-reveal="up">
+              <p class="section-tag">Level 2 Intermediate Task 3</p>
+              <h1 class="hero-title">Modern frontend solutions for practical business websites</h1>
+              <p class="hero-text">
+                A clean multi-page website built with Bootstrap, custom CSS, and smooth
+                scroll-based animations. The design stays premium, structured, and
+                realistic for an internship-level frontend project.
               </p>
-              <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 mt-4">
-                <a href="#services" class="btn btn-primary">View Services</a>
-                <a href="#contact" class="btn btn-outline-secondary">Contact Team</a>
+              <div class="hero-actions justify-content-center">
+                <a href="/services" class="btn btn-primary">Explore Services</a>
+                <a href="/contact" class="btn btn-outline-primary">Start a Project</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services" class="page-section border-bottom">
+      <section class="content-section">
         <div class="container">
-          <div class="row justify-content-center mb-4">
-            <div class="col-lg-8 text-center">
-              <p class="section-label">Services</p>
-              <h2 class="section-title">Our frontend development services</h2>
-              <p class="section-text">
-                We focus on practical frontend work such as layout planning,
-                responsive design, and clean Bootstrap-based implementation.
-              </p>
-            </div>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Features</p>
+            <h2>What this project demonstrates</h2>
+            <p>
+              The homepage includes a practical mix of service highlights, process explanation,
+              testimonials, and contact flow.
+            </p>
           </div>
 
           <div class="row g-4">
-            <% serviceCards.forEach((card) => { %>
-              <div class="col-md-6 col-lg-4">
-                <div class="service-card reveal-card h-100">
-                  <p class="service-number mb-2"><%= card.badge %></p>
-                  <h3 class="h5 mb-2"><%= card.title %></h3>
+            <% featureCards.forEach((card) => { %>
+              <div class="col-md-6 col-lg-4" data-reveal="up">
+                <article class="content-card h-100">
+                  <h3 class="h5"><%= card.title %></h3>
                   <p class="mb-0"><%= card.description %></p>
-                </div>
+                </article>
               </div>
             <% }) %>
           </div>
         </div>
       </section>
 
-      <section id="process" class="page-section border-bottom timeline-section">
+      <section class="content-section process-preview">
         <div class="container">
-          <div class="row justify-content-center mb-4">
-            <div class="col-lg-8 text-center">
-              <p class="section-label">Work Process</p>
-              <h2 class="section-title">How we complete a frontend project</h2>
-              <p class="section-text">
-                A simple vertical timeline is used here to explain how a typical
-                frontend project moves from planning to final delivery.
-              </p>
-            </div>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Process</p>
+            <h2>How a frontend project moves forward</h2>
+            <p>
+              The work process is shown using an aligned timeline with minimal reveal animation.
+            </p>
           </div>
 
-          <div class="timeline-wrapper">
+          <div class="timeline-wrapper" data-reveal="up">
             <div class="timeline-line"></div>
             <div class="timeline-line-fill"></div>
 
             <% processSteps.forEach((step, index) => { const isLeft = index % 2 === 0; %>
               <div class="timeline-item <%= isLeft ? 'timeline-left' : 'timeline-right' %>">
-                <div class="timeline-step">0<%= index + 1 %></div>
-                <div class="timeline-card reveal-card">
+                <div class="timeline-dot"><%= step.step %></div>
+                <article class="timeline-card" data-reveal="up">
                   <h3 class="h5 mb-2"><%= step.title %></h3>
                   <p class="mb-0"><%= step.description %></p>
-                </div>
+                </article>
               </div>
             <% }) %>
           </div>
         </div>
       </section>
 
-      <section id="contact" class="page-section">
+      <section class="content-section">
         <div class="container">
-          <div class="row gy-4">
-            <div class="col-lg-5">
-              <h2 class="section-title">Contact</h2>
-              <p class="section-text">
-                You can use this section to collect client inquiries or project requests.
-              </p>
-              <p class="mb-0"><strong>Email:</strong> hello@cognifyzsolutions.com</p>
-              <p class="mb-0"><strong>Phone:</strong> +91 98765 43210</p>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Feedback</p>
+            <h2>Client feedback</h2>
+            <p>Feedback shared by teams after project delivery and frontend review.</p>
+          </div>
+
+          <div class="row g-4 align-items-start">
+            <div class="col-lg-4" data-reveal="up">
+              <div class="content-card testimonial-overview h-100">
+                <h3 class="h5 mb-3">Delivery summary</h3>
+                <p>
+                  This section presents sample client comments in a more structured
+                  company-style format instead of plain review cards.
+                </p>
+                <ul class="content-list mb-0">
+                  <li>Clear page structure and alignment</li>
+                  <li>Responsive layout across screen sizes</li>
+                  <li>Professional and easy-to-review interface</li>
+                </ul>
+              </div>
             </div>
-            <div class="col-lg-7">
-              <form class="contact-form">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label class="form-label" for="contactName">Name</label>
-                    <input id="contactName" type="text" class="form-control" placeholder="Enter your name" />
+
+            <div class="col-lg-8">
+              <div class="row g-4">
+                <% testimonials.forEach((item) => { %>
+                  <div class="col-md-6" data-reveal="up">
+                    <article class="content-card testimonial-card h-100">
+                      <p class="testimonial-project"><%= item.project %></p>
+                      <p class="testimonial-text">"<%= item.quote %>"</p>
+                      <div class="testimonial-meta">
+                        <strong><%= item.author %></strong>
+                        <span><%= item.role %></span>
+                        <small><%= item.company %></small>
+                      </div>
+                    </article>
                   </div>
-                  <div class="col-md-6">
-                    <label class="form-label" for="contactEmail">Email</label>
-                    <input id="contactEmail" type="email" class="form-control" placeholder="Enter your email" />
-                  </div>
-                  <div class="col-12">
-                    <label class="form-label" for="contactMessage">Message</label>
-                    <textarea
-                      id="contactMessage"
-                      class="form-control"
-                      rows="4"
-                      placeholder="Write your message"
-                    ></textarea>
-                  </div>
-                  <div class="col-12">
-                    <button type="button" class="btn btn-primary">Send Message</button>
-                  </div>
-                </div>
-              </form>
+                <% }) %>
+              </div>
             </div>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer border-top">
-      <div class="container d-flex flex-column flex-md-row justify-content-between gap-2 py-3">
-        <span>Cognifyz Solutions</span>
-        <span>Built with Express, EJS, Bootstrap, and custom CSS</span>
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>
+          <strong>Cognifyz Solutions</strong>
+          <p class="mb-0">Frontend design and development for structured web projects.</p>
+        </div>
+        <div class="footer-links">
+          <a href="/about">About</a>
+          <a href="/services">Services</a>
+          <a href="/process">Work</a>
+          <a href="/contact">Contact</a>
+        </div>
       </div>
     </footer>
 
