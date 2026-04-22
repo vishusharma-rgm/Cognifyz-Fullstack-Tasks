@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom">
+      <div class="container">
+        <a class="navbar-brand fw-semibold" href="#">Cognifyz Careers</a>
+        <span class="navbar-text text-muted small">Level 2 Intermediate Task 4</span>
+      </div>
+    </nav>
+
+    <main class="py-4 py-md-5">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-4">
+            <section class="page-panel">
+              <h1 class="h3 mb-3">Internship Application</h1>
+              <p class="text-muted mb-4">
+                Complete the form step by step. The page updates the review area,
+                password strength, and application progress without reloading.
+              </p>
+
+              <nav class="nav flex-column step-nav">
+                <a class="step-link" href="#welcome" data-link>Welcome</a>
+                <a class="step-link" href="#account" data-link>Account</a>
+                <a class="step-link" href="#profile" data-link>Profile</a>
+                <a class="step-link" href="#review" data-link>Review</a>
+              </nav>
+
+              <div class="small-stats mt-4">
+                <div class="stat-row">
+                  <span>Total applications</span>
+                  <strong id="applicationCount"><%= totalApplications %></strong>
+                </div>
+                <div class="stat-row">
+                  <span>Completion</span>
+                  <strong id="completionScore">0%</strong>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="col-lg-8">
+            <section class="page-panel">
+              <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-3">
+                <div>
+                  <p class="text-muted small mb-1">Current step</p>
+                  <h2 class="h4 mb-0" id="routeTitle">Welcome</h2>
+                </div>
+                <div class="status-text" id="liveBadge">Draft in progress</div>
+              </div>
+
+              <div class="progress simple-progress mb-4" role="progressbar" aria-label="Application progress">
+                <div class="progress-bar" id="progressFill"></div>
+              </div>
+
+              <section class="route-panel active" data-route="welcome">
+                <div class="row gy-3">
+                  <div class="col-md-8">
+                    <h3 class="h5">Welcome to the application form</h3>
+                    <p class="text-muted mb-0">
+                      This project demonstrates complex form validation, dynamic DOM
+                      updates, and simple client-side routing using JavaScript.
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="summary-box">
+                      <p class="small text-muted mb-2">Live preview</p>
+                      <strong id="previewName">Candidate Name</strong>
+                      <div class="text-muted small" id="previewRole">Preferred role will appear here</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4">
+                  <button class="btn btn-primary" type="button" data-next-route="account">
+                    Start Application
+                  </button>
+                </div>
+              </section>
+
+              <form id="applicationForm" novalidate>
+                <section class="route-panel" data-route="account">
+                  <div class="mb-4">
+                    <h3 class="h5 mb-1">Account details</h3>
+                    <p class="text-muted mb-0">Enter your basic information and create a secure password.</p>
+                  </div>
+
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label" for="fullName">Full Name</label>
+                      <input id="fullName" type="text" name="fullName" class="form-control" placeholder="Enter your full name" />
+                      <div class="validation-message" data-error="fullName"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="email">Email Address</label>
+                      <input id="email" type="email" name="email" class="form-control" placeholder="Enter your email" />
+                      <div class="validation-message" data-error="email"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="password">Password</label>
+                      <input id="password" type="password" name="password" class="form-control" placeholder="Create password" />
+                      <div class="validation-message" data-error="password"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="confirmPassword">Confirm Password</label>
+                      <input
+                        id="confirmPassword"
+                        type="password"
+                        name="confirmPassword"
+                        class="form-control"
+                        placeholder="Re-enter password"
+                      />
+                      <div class="validation-message" data-error="confirmPassword"></div>
+                    </div>
+                  </div>
+
+                  <div class="strength-section mt-3">
+                    <div class="progress simple-progress mb-2" role="progressbar" aria-label="Password strength">
+                      <div class="progress-bar" id="strengthFill"></div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between gap-2">
+                      <strong id="strengthLabel">Password strength: Too weak</strong>
+                      <span class="text-muted small" id="strengthHint">
+                        Use uppercase, lowercase, number, and symbol.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
+                    <button class="btn btn-outline-secondary" type="button" data-prev-route="welcome">Back</button>
+                    <button class="btn btn-primary" type="button" data-next-route="profile">Continue to Profile</button>
+                  </div>
+                </section>
+
+                <section class="route-panel" data-route="profile">
+                  <div class="mb-4">
+                    <h3 class="h5 mb-1">Profile information</h3>
+                    <p class="text-muted mb-0">Choose your preferred role and add a short summary.</p>
+                  </div>
+
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label" for="role">Internship Role</label>
+                      <select id="role" name="role" class="form-select">
+                        <option value="">Select role</option>
+                        <% roleOptions.forEach((role) => { %>
+                          <option value="<%= role %>"><%= role %></option>
+                        <% }) %>
+                      </select>
+                      <div class="validation-message" data-error="role"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="track">Specialization Track</label>
+                      <select id="track" name="track" class="form-select">
+                        <option value="">Select track</option>
+                        <% trackOptions.forEach((track) => { %>
+                          <option value="<%= track %>"><%= track %></option>
+                        <% }) %>
+                      </select>
+                      <div class="validation-message" data-error="track"></div>
+                    </div>
+                    <div class="col-12">
+                      <label class="form-label" for="bio">Professional Summary</label>
+                      <textarea
+                        id="bio"
+                        name="bio"
+                        rows="5"
+                        maxlength="220"
+                        class="form-control"
+                        placeholder="Write a short summary about your skills and goals"
+                      ></textarea>
+                      <div class="d-flex justify-content-between gap-2 mt-1">
+                        <div class="validation-message" data-error="bio"></div>
+                        <div class="text-muted small" id="bioCount">0 / 220</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="acceptTerms" name="acceptTerms" />
+                    <label class="form-check-label" for="acceptTerms">
+                      I confirm that the information provided is correct.
+                    </label>
+                  </div>
+                  <div class="validation-message" data-error="acceptTerms"></div>
+
+                  <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
+                    <button class="btn btn-outline-secondary" type="button" data-prev-route="account">Back</button>
+                    <button class="btn btn-primary" type="button" data-next-route="review">Continue to Review</button>
+                  </div>
+                </section>
+
+                <section class="route-panel" data-route="review">
+                  <div class="mb-4">
+                    <h3 class="h5 mb-1">Review your application</h3>
+                    <p class="text-muted mb-0">This section updates automatically as you edit the form.</p>
+                  </div>
+
+                  <div class="review-section">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <div class="review-item">
+                          <span>Name</span>
+                          <strong id="reviewName">Candidate Name</strong>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="review-item">
+                          <span>Email</span>
+                          <strong id="reviewEmail">name@example.com</strong>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="review-item">
+                          <span>Role</span>
+                          <strong id="reviewRole">Not selected</strong>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="review-item">
+                          <span>Track</span>
+                          <strong id="reviewTrack">Not selected</strong>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="review-item">
+                          <span>Professional Summary</span>
+                          <p id="reviewBio" class="mb-0">Your profile summary will appear here.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mt-4">
+                    <button class="btn btn-outline-secondary" type="button" data-prev-route="profile">Back</button>
+                    <button class="btn btn-primary" type="submit">Submit Application</button>
+                  </div>
+                </section>
+              </form>
+
+              <section class="route-panel success-message" data-route="success">
+                <div class="alert alert-success mb-0" role="alert">
+                  <h3 class="h5 mb-2" id="successTitle">Your profile was submitted successfully.</h3>
+                  <p class="mb-3" id="successCopy">
+                    The client-side router moved you to the success state without a full page refresh.
+                  </p>
+                  <button class="btn btn-primary" type="button" id="restartFlow">Create Another Application</button>
+                </div>
+              </section>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      window.formConfig = {
+        roleOptions: <%- JSON.stringify(roleOptions) %>,
+        trackOptions: <%- JSON.stringify(trackOptions) %>
+      };
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
