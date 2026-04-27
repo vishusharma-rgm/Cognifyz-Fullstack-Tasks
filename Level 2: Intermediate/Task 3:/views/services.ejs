@@ -61,12 +61,64 @@
 
       <section class="content-section">
         <div class="container">
+          <div class="row g-4 align-items-center mb-5">
+            <div class="col-lg-6" data-reveal="up">
+              <div class="content-card services-intro-card">
+                <p class="eyebrow-text">What we offer</p>
+                <h2 class="h3">Services built for practical business websites</h2>
+                <p>
+                  These services are arranged to help clients understand what gets delivered,
+                  how the interface improves, and where the frontend adds value.
+                </p>
+                <div class="services-intro-points">
+                  <span>Responsive layouts</span>
+                  <span>Clear UI structure</span>
+                  <span>Professional delivery</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6" data-reveal="up">
+              <div class="services-visual-card">
+                <div class="services-floating-chip float-slow">Modern UI</div>
+                <div class="services-visual-stack">
+                  <div class="visual-screen visual-screen-main">
+                    <div class="visual-screen-bar"></div>
+                    <div class="visual-screen-content">
+                      <div class="visual-line visual-line-large"></div>
+                      <div class="visual-line"></div>
+                      <div class="visual-row">
+                        <div class="visual-box"></div>
+                        <div class="visual-box visual-box-accent"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="visual-screen visual-screen-side float-soft">
+                    <div class="visual-screen-bar"></div>
+                    <div class="visual-screen-content">
+                      <div class="visual-line visual-line-small"></div>
+                      <div class="visual-line"></div>
+                      <div class="visual-line"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row g-4">
-            <% serviceCards.forEach((service) => { %>
+            <% serviceCards.forEach((service, index) => { %>
               <div class="col-md-6 col-lg-4" data-reveal="up">
                 <article class="content-card service-grid-card h-100">
+                  <div class="service-card-top">
+                    <span class="service-icon-badge"><%= `0${index + 1}`.slice(-2) %></span>
+                    <span class="service-chip"><%= index % 2 === 0 ? 'Design + Build' : 'UI Support' %></span>
+                  </div>
                   <h2 class="h5"><%= service.title %></h2>
-                  <p class="mb-0"><%= service.description %></p>
+                  <p><%= service.description %></p>
+                  <div class="service-card-footer">
+                    <span>Responsive output</span>
+                    <a href="/contact">Discuss service</a>
+                  </div>
                 </article>
               </div>
             <% }) %>

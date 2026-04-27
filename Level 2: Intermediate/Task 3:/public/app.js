@@ -50,6 +50,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  function updateTimelineProgress() {
+    timelineWrappers.forEach(function (timeline) {
+      const rect = timeline.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      const progress = (viewportHeight - rect.top) / (rect.height + viewportHeight * 0.35);
+      const clampedProgress = Math.max(0, Math.min(progress, 1));
+
+      timeline.style.setProperty("--timeline-progress", clampedProgress.toFixed(3));
+    });
+  }
+
+  updateTimelineProgress();
+
+  let isTimelineTicking = false;
+
+  function requestTimelineProgressUpdate() {
+    if (isTimelineTicking) {
+      return;
+    }
+
+    isTimelineTicking = true;
+
+    window.requestAnimationFrame(function () {
+      updateTimelineProgress();
+      isTimelineTicking = false;
+    });
+  }
+
+  window.addEventListener("scroll", requestTimelineProgressUpdate, { passive: true });
+  window.addEventListener("resize", requestTimelineProgressUpdate);
+
   if (heroParallax) {
     window.addEventListener("scroll", function () {
       const offset = Math.min(window.scrollY * 0.08, 24);

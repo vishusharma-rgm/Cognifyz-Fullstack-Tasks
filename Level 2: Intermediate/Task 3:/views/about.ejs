@@ -61,32 +61,99 @@
 
       <section class="content-section">
         <div class="container">
-          <div class="row g-4 align-items-start">
-            <div class="col-lg-7" data-reveal="up">
-              <div class="content-card large-card">
-                <h2 class="h4">Who we are</h2>
+          <div class="row g-4 align-items-center">
+            <div class="col-lg-6" data-reveal="up">
+              <div class="content-card about-story-card large-card">
+                <p class="eyebrow-text">Our story</p>
+                <h2 class="h3">Who we are</h2>
                 <p>
                   Cognifyz Solutions is presented as a frontend-focused digital company
                   that helps businesses build responsive websites and clean user interfaces.
                 </p>
-                <ul class="content-list">
+                <ul class="content-list about-points">
                   <% aboutHighlights.forEach((item) => { %>
                     <li><%= item %></li>
                   <% }) %>
                 </ul>
+                <div class="about-actions">
+                  <a href="/services" class="btn btn-primary">View Services</a>
+                  <a href="/contact" class="btn btn-outline-primary">Talk to Our Team</a>
+                </div>
               </div>
             </div>
 
-            <div class="col-lg-5">
-              <div class="row g-3">
-                <% aboutStats.forEach((stat) => { %>
-                  <div class="col-12" data-reveal="up">
-                    <div class="content-card stat-card">
-                      <strong><%= stat.value %></strong>
-                      <span><%= stat.label %></span>
+            <div class="col-lg-6" data-reveal="up">
+              <div class="about-visual-card">
+                <div class="about-floating-badge float-slow">UI planning + delivery</div>
+                <div class="about-dashboard-panel">
+                  <div class="dashboard-window">
+                    <div class="dashboard-bar"></div>
+                    <div class="dashboard-grid">
+                      <div class="dashboard-block dashboard-block-large"></div>
+                      <div class="dashboard-block"></div>
+                      <div class="dashboard-block"></div>
+                      <div class="dashboard-block dashboard-block-accent"></div>
                     </div>
                   </div>
-                <% }) %>
+                </div>
+                <div class="about-mini-card about-mini-card-left float-soft">
+                  <span class="mini-card-icon">01</span>
+                  <div>
+                    <strong>Structured workflow</strong>
+                    <p class="mb-0">Planning, design review, and polished frontend delivery.</p>
+                  </div>
+                </div>
+                <div class="about-mini-card about-mini-card-right float-slow">
+                  <span class="mini-card-icon">02</span>
+                  <div>
+                    <strong>User-first interface</strong>
+                    <p class="mb-0">Readable layouts, responsive sections, and clean handoff.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 mt-2">
+            <% aboutStats.forEach((stat) => { %>
+              <div class="col-md-4" data-reveal="up">
+                <div class="content-card stat-card about-stat-card">
+                  <strong><%= stat.value %></strong>
+                  <span><%= stat.label %></span>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="row g-4 mt-2">
+            <div class="col-lg-4" data-reveal="up">
+              <div class="content-card quick-info-card">
+                <p class="eyebrow-text">Working style</p>
+                <h3 class="h5">Clear communication</h3>
+                <p class="mb-0">
+                  We focus on simple design decisions, direct updates, and frontend work
+                  that is easy for clients and developers to review.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4" data-reveal="up">
+              <div class="content-card quick-info-card">
+                <p class="eyebrow-text">Project approach</p>
+                <h3 class="h5">Build with purpose</h3>
+                <p class="mb-0">
+                  Every section is designed to support real business goals like clarity,
+                  trust, and better user action on the page.
+                </p>
+              </div>
+            </div>
+            <div class="col-lg-4" data-reveal="up">
+              <div class="content-card quick-info-card">
+                <p class="eyebrow-text">Delivery focus</p>
+                <h3 class="h5">Responsive by default</h3>
+                <p class="mb-0">
+                  Layouts are tested for desktop, tablet, and mobile so the experience
+                  stays smooth across all common screen sizes.
+                </p>
               </div>
             </div>
           </div>
