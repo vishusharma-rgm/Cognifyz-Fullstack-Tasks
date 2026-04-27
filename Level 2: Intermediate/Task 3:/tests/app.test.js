@@ -30,6 +30,8 @@ test("home page renders the hero, services preview, and timeline", async () => {
   assert.match(html, /Modern frontend solutions for practical business websites/);
   assert.match(html, /timeline-wrapper/);
   assert.match(html, /Explore Services/);
+  assert.match(html, /data-feedback-trigger/);
+  assert.match(html, /feedbackModal/);
 });
 
 test("about page renders company information and long-form sections", async () => {
@@ -50,7 +52,8 @@ test("services page renders service grid cards", async () => {
 test("process page renders the vertical timeline", async () => {
   const html = await renderView("process", app.buildProcessPageModel());
 
-  assert.match(html, /Project work process/);
+  assert.match(html, /Work that looks intentional from the first scroll/);
+  assert.match(html, /work-hero-stage/);
   assert.match(html, /timeline-dot/);
 });
 

@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const heroOrbs = document.querySelectorAll(".hero-orb");
   const contactForm = document.getElementById("contactForm");
   const tiltCards = document.querySelectorAll(".content-card, .timeline-card");
+  const depthStages = document.querySelectorAll("[data-depth-stage]");
+  const feedbackTriggers = document.querySelectorAll("[data-feedback-trigger]");
+  const feedbackModalElement = document.getElementById("feedbackModal");
 
   if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver(
@@ -111,6 +114,24 @@ document.addEventListener("DOMContentLoaded", function () {
         card.style.setProperty("--card-rotate-y", "0deg");
       });
     });
+
+    depthStages.forEach(function (stage) {
+      stage.addEventListener("mousemove", function (event) {
+        const rect = stage.getBoundingClientRect();
+        const offsetX = event.clientX - rect.left;
+        const offsetY = event.clientY - rect.top;
+        const rotateY = ((offsetX / rect.width) - 0.5) * 10;
+        const rotateX = (0.5 - (offsetY / rect.height)) * 10;
+
+        stage.style.setProperty("--depth-rotate-x", rotateX.toFixed(2) + "deg");
+        stage.style.setProperty("--depth-rotate-y", rotateY.toFixed(2) + "deg");
+      });
+
+      stage.addEventListener("mouseleave", function () {
+        stage.style.setProperty("--depth-rotate-x", "0deg");
+        stage.style.setProperty("--depth-rotate-y", "0deg");
+      });
+    });
   }
 
   if (contactForm) {
@@ -157,6 +178,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
       successNode.textContent = "Thank you. Your message has been recorded successfully.";
       contactForm.reset();
+    });
+  }
+
+  if (feedbackTriggers.length > 0 && feedbackModalElement && window.bootstrap) {
+    const feedbackModal = new window.bootstrap.Modal(feedbackModalElement);
+    const modalFields = {
+      author: document.getElementById("feedbackModalAuthor"),
+      role: document.getElementById("feedbackModalRole"),
+      company: document.getElementById("feedbackModalCompany"),
+      project: document.getElementById("feedbackModalProject"),
+      quote: document.getElementById("feedbackModalQuote"),
+      focus: document.getElementById("feedbackModalFocus"),
+      outcome: document.getElementById("feedbackModalOutcome"),
+      title: document.getElementById("feedbackModalLabel")
+    };
+
+    function openFeedbackModal(trigger) {
+      modalFields.author.textContent = trigger.dataset.feedbackAuthor || "Client";
+      modalFields.role.textContent = trigger.dataset.feedbackRole || "";
+      modalFields.company.textContent = trigger.dataset.feedbackCompany || "";
+      modalFields.project.textContent = trigger.dataset.feedbackProject || "";
+      modalFields.quote.textContent = '"' + (trigger.dataset.feedbackQuote || "") + '"';
+      modalFields.focus.textContent = trigger.dataset.feedbackFocus || "";
+      modalFields.outcome.textContent = trigger.dataset.feedbackOutcome || "";
+      modalFields.title.textContent =
+        (trigger.dataset.feedbackAuthor || "Client") + " feedback";
+
+      feedbackModal.show();
+    }
+
+    feedbackTriggers.forEach(function (trigger) {
+      trigger.addEventListener("click", function () {
+        openFeedbackModal(trigger);
+      });
+
+      trigger.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openFeedbackModal(trigger);
+        }
+      });
     });
   }
 });

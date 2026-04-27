@@ -129,55 +129,63 @@
           </div>
 
           <div class="feedback-showcase" data-reveal="up">
-            <div class="row g-4 justify-content-center">
-              <div class="col-xl-3 col-md-6">
-                <article class="content-card feedback-highlight-card h-100">
-                  <p class="feedback-kicker">Client satisfaction</p>
-                  <div class="feedback-score-row">
-                    <strong>4.9</strong>
-                    <span>/5 average rating</span>
-                  </div>
-                  <p class="feedback-highlight-text">
-                    Designed to feel sharper, more premium, and much easier to scan at a glance.
-                  </p>
-                  <div class="feedback-stat-grid">
-                    <div class="feedback-stat-item">
-                      <strong><%= testimonials.length %></strong>
-                      <span>reviews</span>
-                    </div>
-                    <div class="feedback-stat-item">
-                      <strong>100%</strong>
-                      <span>responsive</span>
-                    </div>
-                    <div class="feedback-stat-item">
-                      <strong>24h</strong>
-                      <span>review cycle</span>
-                    </div>
-                  </div>
-                </article>
+            <div class="feedback-summary-bar">
+              <div class="feedback-summary-copy">
+                <p class="feedback-kicker">Client feedback</p>
+                <h3 class="feedback-summary-title">Structured reviews from recent frontend delivery</h3>
               </div>
 
+              <div class="feedback-summary-metrics">
+                <div class="feedback-metric">
+                  <strong>4.9/5</strong>
+                  <span>average rating</span>
+                </div>
+                <div class="feedback-metric">
+                  <strong><%= testimonials.length %></strong>
+                  <span>verified reviews</span>
+                </div>
+                <div class="feedback-metric">
+                  <strong>100%</strong>
+                  <span>responsive checked</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3">
               <% testimonials.forEach((item) => { const initials = item.author.split(" ").map((part) => part[0]).join("").slice(0, 2).toUpperCase(); %>
-                <div class="col-xl-3 col-md-6">
-                  <article class="content-card testimonial-card h-100">
-                    <div class="testimonial-header">
+                <div class="col-lg-4 col-md-6">
+                  <article
+                    class="content-card testimonial-card h-100"
+                    tabindex="0"
+                    role="button"
+                    aria-label="Open feedback from <%= item.author %>"
+                    data-feedback-trigger
+                    data-feedback-author="<%= item.author %>"
+                    data-feedback-role="<%= item.role %>"
+                    data-feedback-company="<%= item.company %>"
+                    data-feedback-project="<%= item.project %>"
+                    data-feedback-quote="<%= item.quote %>"
+                    data-feedback-focus="<%= item.focus %>"
+                    data-feedback-outcome="<%= item.outcome %>"
+                  >
+                    <div class="testimonial-topline">
                       <div class="testimonial-avatar"><%= initials %></div>
                       <div class="testimonial-identity">
                         <strong><%= item.author %></strong>
                         <span><%= item.role %></span>
                       </div>
+                      <span class="testimonial-score">5.0</span>
                     </div>
-                    <div class="testimonial-rating" aria-label="Rated 5 out of 5">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                    <p class="testimonial-text">"<%= item.quote %>"</p>
+
+                    <p class="testimonial-text testimonial-text-preview">"<%= item.quote %>"</p>
+
                     <div class="testimonial-footer">
-                      <small><%= item.company %></small>
+                      <div class="testimonial-company">
+                        <small>Company</small>
+                        <span><%= item.company %></span>
+                      </div>
                       <p class="testimonial-project mb-0"><%= item.project %></p>
+                      <span class="testimonial-open-link">Click to open full feedback</span>
                     </div>
                   </article>
                 </div>
@@ -186,6 +194,50 @@
           </div>
         </div>
       </section>
+
+      <div class="modal fade feedback-modal" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content feedback-modal-content">
+            <div class="modal-header feedback-modal-header">
+              <div>
+                <p class="feedback-kicker mb-2">Client feedback</p>
+                <h3 class="modal-title h4 mb-0" id="feedbackModalLabel">Feedback details</h3>
+              </div>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body feedback-modal-body">
+              <div class="feedback-modal-meta">
+                <div>
+                  <small>Reviewer</small>
+                  <strong id="feedbackModalAuthor">Client Name</strong>
+                  <span id="feedbackModalRole">Role</span>
+                </div>
+                <div>
+                  <small>Project</small>
+                  <strong id="feedbackModalProject">Project name</strong>
+                  <span id="feedbackModalCompany">Company</span>
+                </div>
+              </div>
+
+              <blockquote class="feedback-modal-quote" id="feedbackModalQuote">
+                Full feedback will appear here.
+              </blockquote>
+
+              <div class="feedback-modal-grid">
+                <div class="feedback-modal-card">
+                  <small>Focus area</small>
+                  <p id="feedbackModalFocus" class="mb-0">Feedback focus area</p>
+                </div>
+                <div class="feedback-modal-card">
+                  <small>Outcome</small>
+                  <p id="feedbackModalOutcome" class="mb-0">Feedback outcome</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="site-footer">

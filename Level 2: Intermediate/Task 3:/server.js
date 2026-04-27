@@ -82,6 +82,75 @@ const processSteps = [
   }
 ];
 
+const workHeroStats = [
+  { value: "04", label: "Immersive story bands" },
+  { value: "3D", label: "Depth-led visual direction" },
+  { value: "100%", label: "Responsive motion polish" }
+];
+
+const workflowScenes = [
+  {
+    step: "01",
+    eyebrow: "Discover",
+    title: "We define the story before touching the pixels",
+    description:
+      "Goals, positioning, page hierarchy, and user attention flow are mapped first so the final interface feels deliberate instead of random.",
+    points: ["Goal mapping", "Content flow", "Visual direction"],
+    accent: "Strategy board"
+  },
+  {
+    step: "02",
+    eyebrow: "Compose",
+    title: "Sections are built like cinematic beats, not plain blocks",
+    description:
+      "Each band gets its own contrast, pacing, and focal point so the scroll feels progressive and premium from top to bottom.",
+    points: ["Hero framing", "Section rhythm", "Motion hierarchy"],
+    accent: "Scene layout"
+  },
+  {
+    step: "03",
+    eyebrow: "Build",
+    title: "3D surfaces, layered cards, and motion bring the work alive",
+    description:
+      "Depth, transforms, glow, and reveal timing are tuned together so the page carries weight and character without becoming noisy.",
+    points: ["3D depth", "Hover response", "Scroll reveal"],
+    accent: "Interaction pass"
+  },
+  {
+    step: "04",
+    eyebrow: "Refine",
+    title: "The last pass is where the page starts feeling expensive",
+    description:
+      "Spacing, mobile behavior, animation pacing, and visual balance are adjusted until the work reads as intentional on every screen.",
+    points: ["Responsive fit", "Speed tuning", "Final polish"],
+    accent: "Delivery check"
+  }
+];
+
+const workSignals = [
+  {
+    title: "Visual hierarchy with weight",
+    description:
+      "Big sections, strong contrast, and layered framing help the work page feel substantial from the first screen."
+  },
+  {
+    title: "Motion that supports the story",
+    description:
+      "Reveal timing and scroll-linked movement are used to make the page feel alive without looking chaotic."
+  },
+  {
+    title: "Detail that survives mobile",
+    description:
+      "The same visual intent is preserved on tablet and mobile with cleaner spacing and controlled depth."
+  }
+];
+
+const executionMetrics = [
+  { value: "12+", label: "Animated surfaces tuned" },
+  { value: "4", label: "Narrative sections composed" },
+  { value: "1", label: "Single work page with full impact" }
+];
+
 const aboutHighlights = [
   "Focused on practical frontend development for business websites",
   "Uses Bootstrap, clean CSS, and responsive design principles",
@@ -101,7 +170,9 @@ const testimonials = [
     author: "Rohit Kumar",
     role: "Project Reviewer",
     company: "Northline Media",
-    project: "Corporate Website Revamp"
+    project: "Corporate Website Revamp",
+    focus: "Visual consistency across desktop and mobile screens",
+    outcome: "Approved in the first review round with only minor content edits."
   },
   {
     quote:
@@ -109,7 +180,9 @@ const testimonials = [
     author: "Sneha Verma",
     role: "UI Mentor",
     company: "Aster Digital",
-    project: "Responsive Landing Page"
+    project: "Responsive Landing Page",
+    focus: "Balanced branding, spacing, and overall presentation quality",
+    outcome: "Used as the preferred reference for the next landing page iteration."
   },
   {
     quote:
@@ -117,7 +190,9 @@ const testimonials = [
     author: "Aman Shah",
     role: "Design Lead",
     company: "Pixel Forge Studio",
-    project: "Brand Refresh Microsite"
+    project: "Brand Refresh Microsite",
+    focus: "Client-facing polish and stronger feedback presentation",
+    outcome: "Shared directly in the delivery deck without additional redesign."
   }
 ];
 
@@ -161,7 +236,11 @@ function buildServicesPageModel() {
 function buildProcessPageModel() {
   return {
     ...buildSharedPageModel("process", "Work Process - Cognifyz Solutions"),
-    processSteps
+    processSteps,
+    workHeroStats,
+    workflowScenes,
+    workSignals,
+    executionMetrics
   };
 }
 

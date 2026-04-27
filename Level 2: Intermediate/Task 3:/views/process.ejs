@@ -47,20 +47,184 @@
     </header>
 
     <main>
-      <section class="page-top-section">
+      <section class="page-top-section work-page-hero">
         <div class="container">
-          <div class="section-heading text-center" data-reveal="up">
-            <p class="section-tag">Timeline</p>
-            <h1>Project work process</h1>
-            <p>
-              A clean vertical timeline with alternating cards, centered line, and subtle scroll animation.
-            </p>
+          <div class="process-hero-shell">
+            <div class="row align-items-center g-4 g-xl-5">
+              <div class="col-lg-6">
+                <div class="process-hero-copy" data-reveal="up">
+                  <p class="section-tag">Work Experience</p>
+                  <h1>Work that looks intentional from the first scroll</h1>
+                  <p class="hero-text process-hero-text">
+                    The work page now reads like a premium product story with bold composition, 3D
+                    depth, layered motion, and a process flow that keeps revealing itself as you move.
+                  </p>
+                  <div class="hero-actions">
+                    <a class="btn btn-primary" href="#workflow-story">See The Flow</a>
+                    <a class="btn btn-outline-primary" href="#process-timeline">Open Timeline</a>
+                  </div>
+                  <div class="process-hero-metrics">
+                    <% workHeroStats.forEach((stat) => { %>
+                      <div class="process-hero-metric content-card" data-reveal="up">
+                        <strong><%= stat.value %></strong>
+                        <span><%= stat.label %></span>
+                      </div>
+                    <% }) %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="work-hero-stage depth-stage" data-depth-stage data-reveal="up">
+                  <div class="work-stage-glow"></div>
+                  <div class="work-stage-grid"></div>
+
+                  <div class="work-stage-panel work-stage-panel-back depth-layer"></div>
+                  <div class="work-stage-panel work-stage-panel-mid depth-layer"></div>
+
+                  <figure class="work-stage-shot depth-layer">
+                    <img src="/assets/work-preview.png" alt="Work page preview" />
+                  </figure>
+
+                  <div class="work-stage-card work-stage-card-main depth-layer">
+                    <span>Visual rhythm</span>
+                    <strong>Hero, motion, and pacing are composed together.</strong>
+                  </div>
+
+                  <div class="work-stage-card work-stage-card-side depth-layer">
+                    <span>Live pass</span>
+                    <ul>
+                      <li>3D layers</li>
+                      <li>Scroll motion</li>
+                      <li>Premium spacing</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="content-section process-page-section">
+      <section class="content-section work-story-section" id="workflow-story">
         <div class="container">
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Four Story Bands</p>
+            <h2>A work page with momentum, depth, and better theatre</h2>
+            <p>
+              Instead of a single flat block, the experience now moves through cinematic sections
+              that keep building the impression.
+            </p>
+          </div>
+
+          <div class="work-story-stack">
+            <% workflowScenes.forEach((scene, index) => { const isReversed = index % 2 === 1; %>
+              <section class="work-story-row <%= isReversed ? 'work-story-row-reverse' : '' %>">
+                <div class="row align-items-center g-4 g-xl-5">
+                  <div class="col-lg-6 <%= isReversed ? 'order-lg-2' : '' %>">
+                    <article class="work-story-copy content-card" data-reveal="up">
+                      <div class="work-story-meta">
+                        <span><%= scene.step %></span>
+                        <small><%= scene.eyebrow %></small>
+                      </div>
+                      <h3><%= scene.title %></h3>
+                      <p><%= scene.description %></p>
+                      <div class="work-story-points">
+                        <% scene.points.forEach((point) => { %>
+                          <span><%= point %></span>
+                        <% }) %>
+                      </div>
+                    </article>
+                  </div>
+
+                  <div class="col-lg-6 <%= isReversed ? 'order-lg-1' : '' %>">
+                    <div
+                      class="work-scene-visual depth-stage work-scene-visual-<%= index + 1 %>"
+                      data-depth-stage
+                      data-reveal="up"
+                    >
+                      <div class="scene-plane scene-plane-back depth-layer"></div>
+                      <div class="scene-plane scene-plane-mid depth-layer"></div>
+
+                      <div class="scene-preview scene-preview-main depth-layer">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+
+                      <div class="scene-preview scene-preview-side depth-layer">
+                        <strong><%= scene.accent %></strong>
+                        <ul>
+                          <% scene.points.forEach((point) => { %>
+                            <li><%= point %></li>
+                          <% }) %>
+                        </ul>
+                      </div>
+
+                      <div class="scene-preview scene-preview-float depth-layer">
+                        <small>Motion tuned</small>
+                        <strong>0<%= index + 1 %></strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section work-signals-section">
+        <div class="container">
+          <div class="work-signals-band" data-reveal="up">
+            <div class="row g-4 align-items-start">
+              <div class="col-lg-5">
+                <div class="work-signals-intro">
+                  <p class="section-tag">Why It Feels Better</p>
+                  <h2>It should look like someone cared about every layer</h2>
+                  <p>
+                    The impression comes from composition, restraint, and motion all supporting the
+                    same idea instead of competing for attention.
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-lg-7">
+                <div class="work-signals-grid">
+                  <% workSignals.forEach((signal) => { %>
+                    <article class="work-signal-card content-card" data-reveal="up">
+                      <h3><%= signal.title %></h3>
+                      <p><%= signal.description %></p>
+                    </article>
+                  <% }) %>
+                </div>
+              </div>
+            </div>
+
+            <div class="work-metrics-strip">
+              <% executionMetrics.forEach((metric) => { %>
+                <div class="work-metric-item">
+                  <strong><%= metric.value %></strong>
+                  <span><%= metric.label %></span>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section process-page-section" id="process-timeline">
+        <div class="container">
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Process Timeline</p>
+            <h2>The line now moves with the scroll, not ahead of it</h2>
+            <p>
+              The underlying process stays visible, but the presentation has more depth and a slower,
+              more controlled reveal.
+            </p>
+          </div>
+
           <div class="timeline-wrapper" data-reveal="up">
             <div class="timeline-line"></div>
             <div class="timeline-line-fill"></div>
@@ -74,6 +238,30 @@
                 </article>
               </div>
             <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section work-finale-section">
+        <div class="container">
+          <div class="work-finale-panel" data-reveal="up">
+            <div class="row align-items-center g-4">
+              <div class="col-lg-7">
+                <p class="section-tag">Final Impression</p>
+                <h2>This is the kind of work page that makes people pause for a second</h2>
+                <p>
+                  It has structure, movement, and presence. The page still explains the process, but
+                  now it also sells the quality of the work while doing it.
+                </p>
+              </div>
+
+              <div class="col-lg-5">
+                <div class="work-finale-actions">
+                  <a class="btn btn-primary" href="/contact">Start A Project</a>
+                  <a class="btn btn-outline-primary" href="/services">View Services</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
