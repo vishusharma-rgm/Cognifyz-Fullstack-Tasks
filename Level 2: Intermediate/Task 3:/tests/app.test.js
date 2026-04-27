@@ -21,7 +21,7 @@ test("home page model includes features, timeline steps, and testimonials", () =
 
   assert.equal(model.featureCards.length, 3);
   assert.equal(model.processSteps.length, 4);
-  assert.equal(model.testimonials.length, 2);
+  assert.equal(model.testimonials.length, 3);
 });
 
 test("home page renders the hero, services preview, and timeline", async () => {
