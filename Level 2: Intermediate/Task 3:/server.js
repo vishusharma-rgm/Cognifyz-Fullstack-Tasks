@@ -97,7 +97,7 @@ const aboutStats = [
 const testimonials = [
   {
     quote:
-      "The final frontend looked clean, organized, and easy to review across all devices.",
+      "The final frontend looked clean, organized, and surprisingly polished on every screen we tested.",
     author: "Rohit Kumar",
     role: "Project Reviewer",
     company: "Northline Media",
@@ -105,11 +105,19 @@ const testimonials = [
   },
   {
     quote:
-      "The layout felt practical and professional without looking overdesigned.",
+      "The layout felt practical and professional while still having enough personality to stand out.",
     author: "Sneha Verma",
     role: "UI Mentor",
     company: "Aster Digital",
     project: "Responsive Landing Page"
+  },
+  {
+    quote:
+      "The feedback area now feels presentation-ready instead of looking like a basic student project block.",
+    author: "Aman Shah",
+    role: "Design Lead",
+    company: "Pixel Forge Studio",
+    project: "Brand Refresh Microsite"
   }
 ];
 

@@ -63,17 +63,19 @@
         <div class="container">
           <div class="row g-4 align-items-center mb-5">
             <div class="col-lg-6" data-reveal="up">
-              <div class="content-card services-intro-card">
+              <div class="services-intro-panel">
                 <p class="eyebrow-text">What we offer</p>
-                <h2 class="h3">Services built for practical business websites</h2>
-                <p>
-                  These services are arranged to help clients understand what gets delivered,
-                  how the interface improves, and where the frontend adds value.
-                </p>
+                <h2 class="h1 services-main-title">Services built for practical business websites</h2>
+                <p>Clear frontend work, cleaner presentation, better user flow.</p>
                 <div class="services-intro-points">
                   <span>Responsive layouts</span>
                   <span>Clear UI structure</span>
                   <span>Professional delivery</span>
+                </div>
+                <div class="services-mini-metrics">
+                  <div><strong>UI</strong><span>Clean sections</span></div>
+                  <div><strong>UX</strong><span>Better flow</span></div>
+                  <div><strong>DEV</strong><span>Structured code</span></div>
                 </div>
               </div>
             </div>
@@ -105,23 +107,58 @@
             </div>
           </div>
 
-          <div class="row g-4">
-            <% serviceCards.forEach((service, index) => { %>
-              <div class="col-md-6 col-lg-4" data-reveal="up">
-                <article class="content-card service-grid-card h-100">
-                  <div class="service-card-top">
-                    <span class="service-icon-badge"><%= `0${index + 1}`.slice(-2) %></span>
-                    <span class="service-chip"><%= index % 2 === 0 ? 'Design + Build' : 'UI Support' %></span>
+          <div class="services-showcase">
+            <% for (let i = 0; i < serviceCards.length; i += 2) { const pair = serviceCards.slice(i, i + 2); const reverse = (i / 2) % 2 === 1; %>
+              <section class="service-row" data-reveal="up">
+                <div class="row g-4 align-items-center">
+                  <div class="col-lg-6 <%= reverse ? 'order-lg-2' : '' %>">
+                    <div class="service-visual-panel">
+                      <span class="service-panel-number"><%= `0${(i / 2) + 1}`.slice(-2) %></span>
+                      <p class="eyebrow-text">Service cluster</p>
+                      <h3><%= pair[0].title %></h3>
+                      <p>Sharper presentation, stronger hierarchy, smoother interaction.</p>
+                      <div class="service-panel-stage">
+                        <div class="service-stage-card stage-card-main float-soft">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <div class="service-stage-card stage-card-side float-slow">
+                          <span></span>
+                          <span></span>
+                        </div>
+                        <div class="service-glow-ring"></div>
+                      </div>
+                      <div class="service-visual-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
                   </div>
-                  <h2 class="h5"><%= service.title %></h2>
-                  <p><%= service.description %></p>
-                  <div class="service-card-footer">
-                    <span>Responsive output</span>
-                    <a href="/contact">Discuss service</a>
+
+                  <div class="col-lg-6 <%= reverse ? 'order-lg-1' : '' %>">
+                    <div class="service-list-panel">
+                      <% pair.forEach((service, index) => { %>
+                        <article class="service-list-item service-grid-card <%= index === pair.length - 1 ? 'service-list-item-last' : '' %>">
+                          <div class="service-item-header">
+                            <span class="service-icon-badge"><%= `0${i + index + 1}`.slice(-2) %></span>
+                            <div>
+                              <h2 class="h4 mb-2"><%= service.title %></h2>
+                              <p class="mb-0"><%= service.description %></p>
+                            </div>
+                          </div>
+                          <div class="service-item-meta">
+                            <span><%= index === 0 ? 'Planning + execution' : 'UI refinement + support' %></span>
+                            <a href="/contact">Discuss</a>
+                          </div>
+                        </article>
+                      <% }) %>
+                    </div>
                   </div>
-                </article>
-              </div>
-            <% }) %>
+                </div>
+              </section>
+            <% } %>
           </div>
         </div>
       </section>

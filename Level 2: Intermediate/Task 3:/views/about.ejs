@@ -61,14 +61,18 @@
 
       <section class="content-section">
         <div class="container">
-          <div class="row g-4 align-items-center">
+          <div class="row g-5 align-items-center about-layout">
             <div class="col-lg-6" data-reveal="up">
-              <div class="content-card about-story-card large-card">
+              <div class="about-story-panel">
                 <p class="eyebrow-text">Our story</p>
-                <h2 class="h3">Who we are</h2>
+                <h2 class="h1 about-main-title">Who we are</h2>
                 <p>
                   Cognifyz Solutions is presented as a frontend-focused digital company
                   that helps businesses build responsive websites and clean user interfaces.
+                </p>
+                <p>
+                  The goal is to create pages that feel modern and polished while staying
+                  practical for real businesses, product teams, and internship-level delivery.
                 </p>
                 <ul class="content-list about-points">
                   <% aboutHighlights.forEach((item) => { %>
@@ -114,46 +118,180 @@
             </div>
           </div>
 
-          <div class="row g-4 mt-2">
-            <% aboutStats.forEach((stat) => { %>
-              <div class="col-md-4" data-reveal="up">
-                <div class="content-card stat-card about-stat-card">
-                  <strong><%= stat.value %></strong>
-                  <span><%= stat.label %></span>
+          <div class="about-detail-section mt-5" data-reveal="up">
+            <div class="row g-5 align-items-start">
+              <div class="col-lg-5">
+                <div class="about-copy-block">
+                  <p class="eyebrow-text">How we work</p>
+                  <h3 class="h2">A frontend process that stays clear from start to finish</h3>
+                  <p class="mb-0">
+                    We prefer readable structure, strong section flow, and visual decisions
+                    that help businesses explain what they offer without cluttering the page.
+                  </p>
                 </div>
               </div>
-            <% }) %>
+              <div class="col-lg-7">
+                <div class="about-highlight-list">
+                  <div class="about-highlight-item">
+                    <h4>Clear communication</h4>
+                    <p>
+                      Project discussions stay simple and direct so clients can quickly
+                      understand progress, updates, and next steps.
+                    </p>
+                  </div>
+                  <div class="about-highlight-item">
+                    <h4>Build with purpose</h4>
+                    <p>
+                      Every section is shaped around readability, trust, and user action
+                      instead of decorative elements that add noise.
+                    </p>
+                  </div>
+                  <div class="about-highlight-item">
+                    <h4>Responsive by default</h4>
+                    <p>
+                      Layouts are planned for desktop, tablet, and mobile from the start
+                      so the design stays balanced on every screen size.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="row g-4 mt-2">
-            <div class="col-lg-4" data-reveal="up">
-              <div class="content-card quick-info-card">
-                <p class="eyebrow-text">Working style</p>
-                <h3 class="h5">Clear communication</h3>
-                <p class="mb-0">
-                  We focus on simple design decisions, direct updates, and frontend work
-                  that is easy for clients and developers to review.
-                </p>
+          <div class="about-wide-section" data-reveal="up">
+            <div class="row g-5 align-items-start">
+              <div class="col-lg-4">
+                <div class="about-section-intro">
+                  <p class="eyebrow-text">What clients notice</p>
+                  <h3 class="h2">The page should feel complete before it feels decorative</h3>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="about-reading-flow">
+                  <div class="about-reading-item">
+                    <span>01</span>
+                    <div>
+                      <h4>Simple structure</h4>
+                      <p>
+                        Pages are arranged so users always know what the business does,
+                        what value it offers, and where to act next.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="about-reading-item">
+                    <span>02</span>
+                    <div>
+                      <h4>Better line-up</h4>
+                      <p>
+                        Sections are aligned with a consistent reading rhythm so the page
+                        feels intentional instead of randomly stacked.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="about-reading-item">
+                    <span>03</span>
+                    <div>
+                      <h4>Useful visuals</h4>
+                      <p>
+                        Animation and 3D depth are kept subtle so the design supports trust
+                        and clarity rather than distracting the user.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-lg-4" data-reveal="up">
-              <div class="content-card quick-info-card">
-                <p class="eyebrow-text">Project approach</p>
-                <h3 class="h5">Build with purpose</h3>
-                <p class="mb-0">
-                  Every section is designed to support real business goals like clarity,
-                  trust, and better user action on the page.
-                </p>
+          </div>
+
+          <div class="about-wide-section about-experience-section" data-reveal="up">
+            <div class="row g-5 align-items-start">
+              <div class="col-lg-6">
+                <div class="about-section-intro">
+                  <p class="eyebrow-text">Experience philosophy</p>
+                  <h3 class="h2">Why this frontend style works for real business pages</h3>
+                  <p>
+                    A strong business site is not only about colors or motion. It needs
+                    clear section hierarchy, fast understanding, and content that can be
+                    scanned easily by first-time visitors.
+                  </p>
+                  <p class="mb-0">
+                    That is why the focus stays on structure, spacing, messaging, and
+                    responsive behavior before decorative UI decisions.
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="about-column-list">
+                  <div class="about-column-item">
+                    <h4>Business clarity</h4>
+                    <p>
+                      Visitors should quickly understand the offer, the workflow, and how
+                      the service solves a real problem.
+                    </p>
+                  </div>
+                  <div class="about-column-item">
+                    <h4>Visual discipline</h4>
+                    <p>
+                      Layout rhythm, margins, and typography should stay consistent from
+                      the top of the page to the footer.
+                    </p>
+                  </div>
+                  <div class="about-column-item">
+                    <h4>Responsive confidence</h4>
+                    <p>
+                      Mobile and tablet views should feel planned, not reduced versions of
+                      the desktop screen.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="col-lg-4" data-reveal="up">
-              <div class="content-card quick-info-card">
-                <p class="eyebrow-text">Delivery focus</p>
-                <h3 class="h5">Responsive by default</h3>
+          </div>
+
+          <div class="about-wide-section" data-reveal="up">
+            <div class="about-journey-strip">
+              <div class="about-journey-head">
+                <p class="eyebrow-text">Working model</p>
+                <h3 class="h2">From first conversation to final delivery</h3>
+              </div>
+              <div class="about-journey-list">
+                <div class="about-journey-item">
+                  <strong>Discover</strong>
+                  <p class="mb-0">
+                    Understand business goals, audience expectations, and the structure each
+                    page needs before visual work starts.
+                  </p>
+                </div>
+                <div class="about-journey-item">
+                  <strong>Design</strong>
+                  <p class="mb-0">
+                    Build a clean interface direction with aligned sections, readable text,
+                    and visuals that strengthen the message.
+                  </p>
+                </div>
+                <div class="about-journey-item">
+                  <strong>Deliver</strong>
+                  <p class="mb-0">
+                    Refine the frontend for responsiveness, smoother interaction, and a
+                    final presentation that feels complete.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-cta-band" data-reveal="up">
+            <div class="row g-4 align-items-center">
+              <div class="col-lg-8">
+                <p class="eyebrow-text">Next step</p>
+                <h3 class="h2 mb-2">Need a cleaner and more impressive frontend presence?</h3>
                 <p class="mb-0">
-                  Layouts are tested for desktop, tablet, and mobile so the experience
-                  stays smooth across all common screen sizes.
+                  The same structure-first approach can be used for service websites,
+                  landing pages, and product-facing frontend projects.
                 </p>
+              </div>
+              <div class="col-lg-4 text-lg-end">
+                <a href="/contact" class="btn btn-primary">Start the discussion</a>
               </div>
             </div>
           </div>

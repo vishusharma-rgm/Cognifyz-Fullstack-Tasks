@@ -32,11 +32,12 @@ test("home page renders the hero, services preview, and timeline", async () => {
   assert.match(html, /Explore Services/);
 });
 
-test("about page renders company information and stats", async () => {
+test("about page renders company information and long-form sections", async () => {
   const html = await renderView("about", app.buildAboutPageModel());
 
   assert.match(html, /About Cognifyz Solutions/);
-  assert.match(html, /Project layouts created/);
+  assert.match(html, /A frontend process that stays clear from start to finish/);
+  assert.match(html, /From first conversation to final delivery/);
 });
 
 test("services page renders service grid cards", async () => {
