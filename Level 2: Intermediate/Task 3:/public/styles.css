@@ -12,6 +12,460 @@
   --shadow-hover: 0 32px 64px rgba(0, 0, 0, 0.4);
 }
 
+/* Final override placed at file end to preserve light-theme readability */
+body {
+  background: #f5f7fb !important;
+}
+
+.hero-section,
+.content-section,
+.page-top-section,
+.work-page-hero {
+  background: transparent !important;
+}
+
+.hero-section::before,
+.hero-section::after,
+.page-top-section::before,
+.navbar-shell::before,
+.work-stage-glow,
+.work-stage-grid,
+.service-glow-ring,
+.hero-orb {
+  display: none !important;
+}
+
+.section-heading p,
+.hero-text,
+.process-hero-text,
+.work-signals-intro p,
+.work-story-copy p,
+.service-item-header p,
+.about-highlight-item p,
+.about-reading-item p,
+.about-column-item p,
+.about-copy-block p,
+.about-section-intro p,
+.about-journey-item p,
+.contact-list,
+.site-footer p,
+.footer-links a,
+.project-card-footer p,
+.project-card p,
+.timeline-card p,
+.content-card p,
+.work-metric-item span,
+.scene-preview-side li {
+  color: #475467 !important;
+}
+
+.hero-title,
+.page-top-section h1,
+.section-heading h1,
+.section-heading h2,
+.content-card h2,
+.content-card h3,
+.timeline-card h2,
+.timeline-card h3,
+.process-hero-copy h1,
+.work-signals-intro h2,
+.work-finale-panel h2,
+.about-main-title,
+.services-main-title,
+.service-visual-panel h3,
+.project-card h2,
+.project-card h3,
+.work-metric-item strong,
+.scene-preview-side strong,
+.work-stage-card strong,
+.work-stage-card span {
+  color: #101828 !important;
+}
+
+.content-card,
+.timeline-card,
+.large-card,
+.contact-form-card,
+.about-story-panel,
+.about-visual-card,
+.about-mini-card,
+.about-highlight-item,
+.about-column-item,
+.about-journey-strip,
+.about-cta-band,
+.services-intro-panel,
+.services-visual-card,
+.service-visual-panel,
+.service-list-item,
+.process-hero-shell,
+.process-hero-metric,
+.work-story-copy,
+.work-signal-card,
+.work-signals-band,
+.work-finale-panel,
+.work-stage-card,
+.work-stage-panel,
+.work-stage-shot,
+.work-scene-visual,
+.scene-preview,
+.project-card,
+.site-footer,
+.work-metric-item {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06) !important;
+}
+
+.work-stage-panel,
+.scene-plane,
+.scene-plane-back,
+.scene-plane-mid,
+.dashboard-window,
+.visual-screen,
+.service-stage-card {
+  background: #ffffff !important;
+}
+
+.dashboard-block,
+.visual-box,
+.scene-preview-main span,
+.service-stage-card span,
+.visual-line,
+.service-visual-lines span,
+.dashboard-bar,
+.visual-screen-bar {
+  background: #d0d5dd !important;
+}
+
+.dashboard-block-large,
+.dashboard-block-accent,
+.visual-box-accent,
+.scene-preview-float,
+.scene-plane-back,
+.process-hero-metric,
+.timeline-dot,
+.project-card-index,
+.project-card-category,
+.about-reading-item span,
+.work-story-points span,
+.work-story-meta span,
+.services-intro-points span,
+.service-item-meta span {
+  background: #eff4ff !important;
+  color: #175cd3 !important;
+  border: 1px solid rgba(23, 92, 211, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.project-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.project-card-category,
+.project-card-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.project-card-index {
+  min-width: 40px;
+  padding-inline: 0.75rem;
+}
+
+.project-card-footer {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.project-card-footer small,
+.eyebrow-text {
+  color: #175cd3 !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #175cd3 !important;
+  background: #eff4ff !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.btn-primary {
+  background: #175cd3 !important;
+  border-color: #175cd3 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover {
+  background: #1849a9 !important;
+  border-color: #1849a9 !important;
+}
+
+.btn-outline-primary {
+  background: #ffffff !important;
+  color: #175cd3 !important;
+  border-color: rgba(23, 92, 211, 0.18) !important;
+}
+
+.btn-outline-primary:hover {
+  background: #eff4ff !important;
+  color: #175cd3 !important;
+  border-color: rgba(23, 92, 211, 0.2) !important;
+}
+
+/* Final light-theme contrast cleanup */
+body {
+  background: #f5f7fb !important;
+}
+
+.hero-section,
+.content-section,
+.page-top-section,
+.work-page-hero {
+  background: transparent !important;
+}
+
+.hero-section::before,
+.hero-section::after,
+.page-top-section::before,
+.navbar-shell::before,
+.work-stage-glow,
+.work-stage-grid,
+.service-glow-ring,
+.hero-orb {
+  display: none !important;
+}
+
+.section-heading p,
+.hero-text,
+.process-hero-text,
+.work-signals-intro p,
+.work-story-copy p,
+.service-item-header p,
+.about-highlight-item p,
+.about-reading-item p,
+.about-column-item p,
+.about-copy-block p,
+.about-section-intro p,
+.about-journey-item p,
+.contact-list,
+.site-footer p,
+.footer-links a,
+.project-card-footer p,
+.project-card p,
+.timeline-card p,
+.content-card p {
+  color: #475467 !important;
+}
+
+.hero-title,
+.page-top-section h1,
+.section-heading h1,
+.section-heading h2,
+.content-card h2,
+.content-card h3,
+.timeline-card h2,
+.timeline-card h3,
+.process-hero-copy h1,
+.work-signals-intro h2,
+.work-finale-panel h2,
+.about-main-title,
+.services-main-title,
+.service-visual-panel h3,
+.project-card h2,
+.project-card h3 {
+  color: #101828 !important;
+}
+
+.content-card,
+.timeline-card,
+.large-card,
+.contact-form-card,
+.about-story-panel,
+.about-visual-card,
+.about-mini-card,
+.about-highlight-item,
+.about-column-item,
+.about-journey-strip,
+.about-cta-band,
+.services-intro-panel,
+.services-visual-card,
+.service-visual-panel,
+.service-list-item,
+.process-hero-shell,
+.process-hero-metric,
+.work-story-copy,
+.work-signal-card,
+.work-signals-band,
+.work-finale-panel,
+.work-stage-card,
+.work-stage-panel,
+.work-stage-shot,
+.work-scene-visual,
+.scene-preview,
+.project-card,
+.site-footer {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06) !important;
+}
+
+.work-stage-panel,
+.scene-plane,
+.scene-plane-back,
+.scene-plane-mid,
+.dashboard-window,
+.visual-screen,
+.service-stage-card,
+.process-hero-shell {
+  background: #ffffff !important;
+}
+
+.dashboard-block,
+.visual-box,
+.scene-preview-main span,
+.service-stage-card span,
+.visual-line,
+.service-visual-lines span,
+.dashboard-bar,
+.visual-screen-bar {
+  background: #d0d5dd !important;
+}
+
+.dashboard-block-large,
+.dashboard-block-accent,
+.visual-box-accent,
+.scene-preview-float,
+.scene-plane-back,
+.process-hero-metric,
+.timeline-dot,
+.project-card-index,
+.project-card-category,
+.about-reading-item span,
+.work-story-points span,
+.work-story-meta span,
+.services-intro-points span,
+.service-item-meta span {
+  background: #eff4ff !important;
+  color: #175cd3 !important;
+  border: 1px solid rgba(23, 92, 211, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.project-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.project-card-category,
+.project-card-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.project-card-index {
+  min-width: 40px;
+  padding-inline: 0.75rem;
+}
+
+.project-card-footer {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.project-card-footer small,
+.eyebrow-text {
+  color: #175cd3 !important;
+}
+
+.work-stage-card span,
+.work-stage-card strong,
+.scene-preview-side strong,
+.scene-preview-side li,
+.scene-preview-float strong,
+.service-item-meta a,
+.footer-links a:hover,
+.nav-link:hover,
+.nav-link.active {
+  color: #175cd3 !important;
+}
+
+.work-stage-card,
+.scene-preview-side,
+.scene-preview-float,
+.service-stage-card,
+.about-floating-badge,
+.services-floating-chip,
+.about-mini-card,
+.service-list-item,
+.work-story-copy,
+.work-signal-card,
+.work-metric-item,
+.process-hero-metric span,
+.process-hero-metric strong {
+  color: #101828 !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: #eff4ff !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.timeline-line {
+  background: rgba(15, 23, 42, 0.08) !important;
+}
+
+.timeline-line-fill,
+.timeline-card::after {
+  background: #3b82f6 !important;
+}
+
+.btn-primary {
+  background: #175cd3 !important;
+  border-color: #175cd3 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover {
+  background: #1849a9 !important;
+  border-color: #1849a9 !important;
+}
+
+.btn-outline-primary {
+  background: #ffffff !important;
+  color: #175cd3 !important;
+  border-color: rgba(23, 92, 211, 0.18) !important;
+}
+
+.btn-outline-primary:hover {
+  background: #eff4ff !important;
+  color: #175cd3 !important;
+  border-color: rgba(23, 92, 211, 0.2) !important;
+}
+
 /* Apple-style light minimal theme */
 :root {
   --bg-color: #f5f7fb;
@@ -3045,4 +3499,216 @@ h3,
     right: auto;
     width: 20px;
   }
+}
+
+/* Locked final override for readability */
+body {
+  background: #f5f7fb !important;
+}
+
+.hero-section,
+.content-section,
+.page-top-section,
+.work-page-hero {
+  background: transparent !important;
+}
+
+.hero-section::before,
+.hero-section::after,
+.page-top-section::before,
+.navbar-shell::before,
+.work-stage-glow,
+.work-stage-grid,
+.service-glow-ring,
+.hero-orb {
+  display: none !important;
+}
+
+.section-heading p,
+.hero-text,
+.process-hero-text,
+.work-signals-intro p,
+.work-story-copy p,
+.service-item-header p,
+.about-highlight-item p,
+.about-reading-item p,
+.about-column-item p,
+.about-copy-block p,
+.about-section-intro p,
+.about-journey-item p,
+.contact-list,
+.site-footer p,
+.footer-links a,
+.project-card-footer p,
+.project-card p,
+.timeline-card p,
+.content-card p,
+.work-metric-item span,
+.scene-preview-side li {
+  color: #475467 !important;
+}
+
+.hero-title,
+.page-top-section h1,
+.section-heading h1,
+.section-heading h2,
+.content-card h2,
+.content-card h3,
+.timeline-card h2,
+.timeline-card h3,
+.process-hero-copy h1,
+.work-signals-intro h2,
+.work-finale-panel h2,
+.about-main-title,
+.services-main-title,
+.service-visual-panel h3,
+.project-card h2,
+.project-card h3,
+.work-metric-item strong,
+.scene-preview-side strong,
+.work-stage-card strong,
+.work-stage-card span {
+  color: #101828 !important;
+}
+
+.content-card,
+.timeline-card,
+.large-card,
+.contact-form-card,
+.about-story-panel,
+.about-visual-card,
+.about-mini-card,
+.about-highlight-item,
+.about-column-item,
+.about-journey-strip,
+.about-cta-band,
+.services-intro-panel,
+.services-visual-card,
+.service-visual-panel,
+.service-list-item,
+.process-hero-shell,
+.process-hero-metric,
+.work-story-copy,
+.work-signal-card,
+.work-signals-band,
+.work-finale-panel,
+.work-stage-card,
+.work-stage-panel,
+.work-stage-shot,
+.work-scene-visual,
+.scene-preview,
+.project-card,
+.site-footer,
+.work-metric-item {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06) !important;
+}
+
+.work-stage-panel,
+.scene-plane,
+.scene-plane-back,
+.scene-plane-mid,
+.dashboard-window,
+.visual-screen,
+.service-stage-card {
+  background: #ffffff !important;
+}
+
+.dashboard-block,
+.visual-box,
+.scene-preview-main span,
+.service-stage-card span,
+.visual-line,
+.service-visual-lines span,
+.dashboard-bar,
+.visual-screen-bar {
+  background: #d0d5dd !important;
+}
+
+.dashboard-block-large,
+.dashboard-block-accent,
+.visual-box-accent,
+.scene-preview-float,
+.scene-plane-back,
+.process-hero-metric,
+.timeline-dot,
+.project-card-index,
+.project-card-category,
+.about-reading-item span,
+.work-story-points span,
+.work-story-meta span,
+.services-intro-points span,
+.service-item-meta span {
+  background: #eff4ff !important;
+  color: #175cd3 !important;
+  border: 1px solid rgba(23, 92, 211, 0.12) !important;
+  box-shadow: none !important;
+}
+
+.project-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.project-card-category,
+.project-card-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.project-card-index {
+  min-width: 40px;
+  padding-inline: 0.75rem;
+}
+
+.project-card-footer {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.project-card-footer small,
+.eyebrow-text {
+  color: #175cd3 !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #175cd3 !important;
+  background: #eff4ff !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.btn-primary {
+  background: #175cd3 !important;
+  border-color: #175cd3 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover {
+  background: #1849a9 !important;
+  border-color: #1849a9 !important;
+}
+
+.btn-outline-primary {
+  background: #ffffff !important;
+  color: #175cd3 !important;
+  border-color: rgba(23, 92, 211, 0.18) !important;
+}
+
+.btn-outline-primary:hover {
+  background: #eff4ff !important;
+  color: #175cd3 !important;
+  border-color: rgba(23, 92, 211, 0.2) !important;
 }

@@ -16,12 +16,12 @@ function renderView(view, data) {
   });
 }
 
-test("home page model includes features, timeline steps, and testimonials", () => {
+test("home page model includes features, timeline steps, and projects", () => {
   const model = app.buildHomePageModel();
 
   assert.equal(model.featureCards.length, 3);
   assert.equal(model.processSteps.length, 4);
-  assert.equal(model.testimonials.length, 3);
+  assert.equal(model.projectCards.length, 3);
 });
 
 test("home page renders the hero, services preview, and timeline", async () => {
@@ -30,8 +30,8 @@ test("home page renders the hero, services preview, and timeline", async () => {
   assert.match(html, /Frontend design and development for modern business websites/);
   assert.match(html, /timeline-wrapper/);
   assert.match(html, /Explore Services/);
-  assert.match(html, /data-feedback-trigger/);
-  assert.match(html, /feedbackModal/);
+  assert.match(html, /Recent frontend project directions/);
+  assert.match(html, /View All Projects/);
 });
 
 test("about page renders company information and long-form sections", async () => {
@@ -47,6 +47,14 @@ test("services page renders service grid cards", async () => {
 
   assert.match(html, /Frontend services/);
   assert.match(html, /service-grid-card/);
+});
+
+test("projects page renders project cards", async () => {
+  const html = await renderView("projects", app.buildProjectsPageModel());
+
+  assert.match(html, /Selected frontend project directions/);
+  assert.match(html, /Corporate Service Website/);
+  assert.match(html, /project-card/);
 });
 
 test("process page renders the vertical timeline", async () => {
