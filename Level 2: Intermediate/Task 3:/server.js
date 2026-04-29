@@ -22,6 +22,30 @@ const homeFeatureCards = [
   }
 ];
 
+const projectCards = [
+  {
+    title: "Corporate Service Website",
+    category: "Business Website",
+    summary:
+      "A structured company website focused on clear messaging, responsive sections, and better service presentation.",
+    outcome: "Improved readability and stronger homepage hierarchy for first-time visitors."
+  },
+  {
+    title: "Startup Landing Page",
+    category: "Landing Page",
+    summary:
+      "A conversion-focused landing page with stronger section flow, cleaner calls to action, and mobile-friendly spacing.",
+    outcome: "Sharper product positioning and easier browsing across desktop and mobile."
+  },
+  {
+    title: "Dashboard UI Refresh",
+    category: "Internal Product UI",
+    summary:
+      "A cleaner dashboard interface with better grouping, spacing, and visual consistency for business teams.",
+    outcome: "More organized data views and a simpler interface for daily internal use."
+  }
+];
+
 const serviceCards = [
   {
     title: "Company Website Design",
@@ -163,39 +187,6 @@ const aboutStats = [
   { value: "100%", label: "Responsive-first approach" }
 ];
 
-const testimonials = [
-  {
-    quote:
-      "The final frontend looked clean, organized, and surprisingly polished on every screen we tested.",
-    author: "Rohit Kumar",
-    role: "Project Reviewer",
-    company: "Northline Media",
-    project: "Corporate Website Revamp",
-    focus: "Visual consistency across desktop and mobile screens",
-    outcome: "Approved in the first review round with only minor content edits."
-  },
-  {
-    quote:
-      "The layout felt practical and professional while still having enough personality to stand out.",
-    author: "Sneha Verma",
-    role: "UI Mentor",
-    company: "Aster Digital",
-    project: "Responsive Landing Page",
-    focus: "Balanced branding, spacing, and overall presentation quality",
-    outcome: "Used as the preferred reference for the next landing page iteration."
-  },
-  {
-    quote:
-      "The feedback area now feels presentation-ready instead of looking like a basic student project block.",
-    author: "Aman Shah",
-    role: "Design Lead",
-    company: "Pixel Forge Studio",
-    project: "Brand Refresh Microsite",
-    focus: "Client-facing polish and stronger feedback presentation",
-    outcome: "Shared directly in the delivery deck without additional redesign."
-  }
-];
-
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -214,7 +205,7 @@ function buildHomePageModel() {
     ...buildSharedPageModel("home", "Task 3 - Modern Multi-Page Website"),
     featureCards: homeFeatureCards,
     processSteps,
-    testimonials
+    projectCards
   };
 }
 
@@ -244,6 +235,13 @@ function buildProcessPageModel() {
   };
 }
 
+function buildProjectsPageModel() {
+  return {
+    ...buildSharedPageModel("projects", "Projects - Cognifyz Solutions"),
+    projectCards
+  };
+}
+
 function buildContactPageModel() {
   return {
     ...buildSharedPageModel("contact", "Contact - Cognifyz Solutions")
@@ -260,6 +258,10 @@ app.get("/about", (req, res) => {
 
 app.get("/services", (req, res) => {
   res.render("services", buildServicesPageModel());
+});
+
+app.get("/projects", (req, res) => {
+  res.render("projects", buildProjectsPageModel());
 });
 
 app.get("/process", (req, res) => {
@@ -280,5 +282,6 @@ module.exports = app;
 module.exports.buildHomePageModel = buildHomePageModel;
 module.exports.buildAboutPageModel = buildAboutPageModel;
 module.exports.buildServicesPageModel = buildServicesPageModel;
+module.exports.buildProjectsPageModel = buildProjectsPageModel;
 module.exports.buildProcessPageModel = buildProcessPageModel;
 module.exports.buildContactPageModel = buildContactPageModel;
