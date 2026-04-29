@@ -6,19 +6,19 @@ const PORT = process.env.PORT || 3000;
 
 const homeFeatureCards = [
   {
-    title: "Responsive Layouts",
+    title: "Responsive Systems",
     description:
-      "Web pages that stay clean and readable across desktop, tablet, and mobile devices."
+      "Layouts that stay elegant, readable, and balanced across desktop, tablet, and mobile screens."
   },
   {
-    title: "Frontend Development",
+    title: "Frontend UI Delivery",
     description:
-      "Bootstrap-based UI development with simple components, forms, and reusable styling."
+      "Business-facing interfaces built with structured components, refined styling, and production-minded polish."
   },
   {
-    title: "Project Delivery",
+    title: "Structured Execution",
     description:
-      "Structured implementation with testing, refinement, and final review before release."
+      "A deliberate workflow covering design refinement, testing, and final review before delivery."
   }
 ];
 
@@ -103,7 +103,7 @@ const workflowScenes = [
     eyebrow: "Compose",
     title: "Sections are built like cinematic beats, not plain blocks",
     description:
-      "Each band gets its own contrast, pacing, and focal point so the scroll feels progressive and premium from top to bottom.",
+      "Each band gets its own contrast, pacing, and focal point so the scroll feels progressive and polished from top to bottom.",
     points: ["Hero framing", "Section rhythm", "Motion hierarchy"],
     accent: "Scene layout"
   },
@@ -119,7 +119,7 @@ const workflowScenes = [
   {
     step: "04",
     eyebrow: "Refine",
-    title: "The last pass is where the page starts feeling expensive",
+    title: "The last pass is where the page starts feeling balanced",
     description:
       "Spacing, mobile behavior, animation pacing, and visual balance are adjusted until the work reads as intentional on every screen.",
     points: ["Responsive fit", "Speed tuning", "Final polish"],
