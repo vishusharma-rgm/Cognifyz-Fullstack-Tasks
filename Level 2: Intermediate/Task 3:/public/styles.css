@@ -2030,7 +2030,7 @@ h3,
 .work-story-copy h3,
 .work-signals-intro h2,
 .work-finale-panel h2 {
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: "Inter", "Segoe UI", sans-serif;
 }
 
 .navbar-shell {
@@ -2070,23 +2070,19 @@ h3,
   box-shadow: 0 10px 20px rgba(125, 211, 252, 0.2);
 }
 
-.hero-section {
-  background:
-    radial-gradient(circle at 20% 18%, rgba(125, 211, 252, 0.12), transparent 24%),
-    radial-gradient(circle at 80% 25%, rgba(94, 234, 212, 0.08), transparent 20%),
-    linear-gradient(180deg, rgba(16, 19, 24, 0.35), rgba(5, 6, 8, 0));
+.hero-section,
+.page-top-section {
+  background: transparent;
 }
 
+.hero-section::before,
+.hero-section::after,
 .page-top-section::before {
-  background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(125, 211, 252, 0));
+  display: none;
 }
 
-.hero-orb-one {
-  background: radial-gradient(circle, rgba(125, 211, 252, 0.22), rgba(125, 211, 252, 0.03));
-}
-
-.hero-orb-two {
-  background: radial-gradient(circle, rgba(94, 234, 212, 0.18), rgba(94, 234, 212, 0.04));
+.hero-orb {
+  display: none;
 }
 
 .section-tag {
@@ -2107,6 +2103,34 @@ h3,
 .work-signals-intro h2,
 .work-finale-panel h2 {
   color: var(--text-color);
+}
+
+.hero-section {
+  padding-top: 64px;
+}
+
+.hero-parallax {
+  padding: 0;
+}
+
+.hero-title {
+  max-width: 980px;
+  margin-inline: auto;
+  font-size: clamp(2.5rem, 4.8vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.hero-text {
+  max-width: 760px;
+  font-size: 1.02rem;
+}
+
+.section-tag {
+  background: rgba(125, 211, 252, 0.1);
+  border: 1px solid rgba(125, 211, 252, 0.12);
+  color: #d7f2ff;
 }
 
 .content-card,

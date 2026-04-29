@@ -27,7 +27,7 @@ test("home page model includes features, timeline steps, and testimonials", () =
 test("home page renders the hero, services preview, and timeline", async () => {
   const html = await renderView("index", app.buildHomePageModel());
 
-  assert.match(html, /Modern frontend solutions for practical business websites/);
+  assert.match(html, /Frontend design and development for modern business websites/);
   assert.match(html, /timeline-wrapper/);
   assert.match(html, /Explore Services/);
   assert.match(html, /data-feedback-trigger/);
