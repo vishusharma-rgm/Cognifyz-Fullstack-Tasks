@@ -1,12 +1,12 @@
 :root {
-  --bg-color: #050608;
-  --surface-color: #101318;
-  --surface-soft: #181d25;
-  --primary-color: #7dd3fc;
-  --accent-color: #5eead4;
-  --text-color: #f4f6fb;
-  --muted-color: #bcc6d5;
-  --border-color: rgba(255, 255, 255, 0.1);
+  --bg-color: #0b1118;
+  --surface-color: #131a24;
+  --surface-soft: #1a2230;
+  --primary-color: #4f7cff;
+  --accent-color: #7aa2ff;
+  --text-color: #eef4ff;
+  --muted-color: #b4c0d4;
+  --border-color: rgba(255, 255, 255, 0.08);
   --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.28);
   --shadow-medium: 0 26px 55px rgba(0, 0, 0, 0.34);
   --shadow-hover: 0 32px 64px rgba(0, 0, 0, 0.4);
@@ -26,8 +26,8 @@ body {
   font-family: "Inter", "Segoe UI", sans-serif;
   color: var(--text-color);
   background:
-    radial-gradient(circle at top left, rgba(125, 211, 252, 0.1), transparent 24%),
-    radial-gradient(circle at top right, rgba(94, 234, 212, 0.08), transparent 20%),
+    radial-gradient(circle at top left, rgba(79, 124, 255, 0.08), transparent 24%),
+    radial-gradient(circle at top right, rgba(122, 162, 255, 0.06), transparent 20%),
     var(--bg-color);
   line-height: 1.65;
 }
@@ -2035,22 +2035,18 @@ h3,
 
 .navbar-shell {
   border-color: rgba(255, 255, 255, 0.08);
-  background:
-    linear-gradient(135deg, rgba(16, 19, 24, 0.94), rgba(24, 29, 37, 0.9)),
-    linear-gradient(90deg, rgba(125, 211, 252, 0.1), rgba(94, 234, 212, 0.08));
+  background: rgba(19, 26, 36, 0.94);
   box-shadow:
     0 18px 40px rgba(0, 0, 0, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .navbar-shell::before {
-  background:
-    radial-gradient(circle at 18% 50%, rgba(125, 211, 252, 0.12), transparent 24%),
-    radial-gradient(circle at 82% 50%, rgba(94, 234, 212, 0.08), transparent 22%);
+  display: none;
 }
 
 .navbar-shell .navbar-toggler {
-  border-color: rgba(125, 211, 252, 0.18);
+  border-color: rgba(79, 124, 255, 0.18);
   background: rgba(255, 255, 255, 0.04);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
@@ -2065,9 +2061,9 @@ h3,
 
 .nav-link:hover,
 .nav-link.active {
-  color: #101318;
-  background: linear-gradient(135deg, #93c5fd, #7dd3fc 70%, #5eead4);
-  box-shadow: 0 10px 20px rgba(125, 211, 252, 0.2);
+  color: #ffffff;
+  background: var(--primary-color);
+  box-shadow: 0 10px 20px rgba(79, 124, 255, 0.22);
 }
 
 .hero-section,
@@ -2128,19 +2124,19 @@ h3,
 }
 
 .section-tag {
-  background: rgba(125, 211, 252, 0.1);
-  border: 1px solid rgba(125, 211, 252, 0.12);
-  color: #d7f2ff;
+  background: rgba(79, 124, 255, 0.1);
+  border: 1px solid rgba(79, 124, 255, 0.14);
+  color: #cfe0ff;
 }
 
 .content-card,
 .timeline-card {
-  background: linear-gradient(180deg, rgba(16, 19, 24, 0.96), rgba(22, 27, 34, 0.92));
+  background: rgba(19, 26, 36, 0.96);
 }
 
 .content-card::before,
 .timeline-card::before {
-  background: linear-gradient(180deg, rgba(125, 211, 252, 0.08), rgba(94, 234, 212, 0));
+  background: linear-gradient(180deg, rgba(79, 124, 255, 0.05), rgba(79, 124, 255, 0));
 }
 
 .content-card,
@@ -2170,9 +2166,7 @@ h3,
 .feedback-summary-bar,
 .about-journey-strip,
 .work-signals-band {
-  background:
-    radial-gradient(circle at top right, rgba(94, 234, 212, 0.08), transparent 24%),
-    linear-gradient(180deg, rgba(16, 19, 24, 0.98), rgba(23, 28, 35, 0.94));
+  background: rgba(19, 26, 36, 0.98);
 }
 
 .feedback-metric,
@@ -2183,12 +2177,12 @@ h3,
 .dashboard-window,
 .visual-screen,
 .form-control {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .testimonial-card {
-  border-top-color: rgba(125, 211, 252, 0.22);
-  background: linear-gradient(180deg, rgba(16, 19, 24, 0.98), rgba(21, 26, 33, 0.94));
+  border-top-color: rgba(79, 124, 255, 0.2);
+  background: rgba(19, 26, 36, 0.98);
   box-shadow: var(--shadow-soft);
 }
 
@@ -2212,19 +2206,16 @@ h3,
 .service-item-meta span,
 .service-chip,
 .service-card-footer span {
-  background: rgba(125, 211, 252, 0.12);
-  color: #d7f2ff;
-  border-color: rgba(125, 211, 252, 0.16);
+  background: rgba(79, 124, 255, 0.12);
+  color: #cfe0ff;
+  border-color: rgba(79, 124, 255, 0.16);
 }
 
 .about-visual-card,
 .services-visual-card,
 .service-visual-panel,
 .work-scene-visual {
-  background:
-    radial-gradient(circle at top right, rgba(94, 234, 212, 0.08), transparent 28%),
-    radial-gradient(circle at bottom left, rgba(125, 211, 252, 0.1), transparent 32%),
-    linear-gradient(180deg, rgba(14, 18, 24, 0.98), rgba(20, 25, 32, 0.95));
+  background: rgba(19, 26, 36, 0.98);
 }
 
 .dashboard-block,
@@ -2233,14 +2224,14 @@ h3,
 .service-stage-card span,
 .visual-line,
 .service-visual-lines span {
-  background: linear-gradient(90deg, rgba(125, 211, 252, 0.16), rgba(94, 234, 212, 0.08));
+  background: linear-gradient(90deg, rgba(79, 124, 255, 0.16), rgba(79, 124, 255, 0.04));
 }
 
 .dashboard-block-large,
 .dashboard-block-accent,
 .visual-box-accent,
 .scene-plane-back {
-  background: linear-gradient(160deg, rgba(125, 211, 252, 0.16), rgba(94, 234, 212, 0.1));
+  background: linear-gradient(160deg, rgba(79, 124, 255, 0.18), rgba(79, 124, 255, 0.08));
 }
 
 .service-stage-card,
@@ -2251,13 +2242,13 @@ h3,
 }
 
 .work-story-meta span {
-  background: linear-gradient(135deg, #93c5fd, #5eead4);
-  color: #101318;
-  box-shadow: 0 16px 30px rgba(125, 211, 252, 0.18);
+  background: rgba(79, 124, 255, 0.16);
+  color: #dce7ff;
+  box-shadow: none;
 }
 
 .timeline-line {
-  background: rgba(125, 211, 252, 0.14);
+  background: rgba(79, 124, 255, 0.14);
 }
 
 .timeline-dot {
@@ -2268,7 +2259,7 @@ h3,
 }
 
 .timeline-card::after {
-  background: linear-gradient(90deg, rgba(125, 211, 252, 0.7), rgba(94, 234, 212, 0.68));
+  background: linear-gradient(90deg, rgba(79, 124, 255, 0.7), rgba(79, 124, 255, 0.38));
 }
 
 .form-label,
@@ -2319,9 +2310,9 @@ h3,
 }
 
 .form-control:focus {
-  border-color: rgba(125, 211, 252, 0.55);
+  border-color: rgba(79, 124, 255, 0.55);
   background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 0 0 4px rgba(125, 211, 252, 0.08) !important;
+  box-shadow: 0 0 0 4px rgba(79, 124, 255, 0.08) !important;
 }
 
 .form-error {
@@ -2329,20 +2320,20 @@ h3,
 }
 
 .btn-primary {
-  color: #101318;
-  background: linear-gradient(135deg, #93c5fd, #5eead4);
-  box-shadow: 0 16px 30px rgba(125, 211, 252, 0.16);
+  color: #ffffff;
+  background: var(--primary-color);
+  box-shadow: 0 16px 30px rgba(79, 124, 255, 0.16);
 }
 
 .btn-primary:hover {
-  color: #101318;
-  background: linear-gradient(135deg, #bfdbfe, #7dd3fc);
-  box-shadow: 0 20px 36px rgba(125, 211, 252, 0.2);
+  color: #ffffff;
+  background: #4068df;
+  box-shadow: 0 20px 36px rgba(79, 124, 255, 0.2);
 }
 
 .btn-outline-primary {
-  color: #d7f2ff;
-  border-color: rgba(125, 211, 252, 0.28);
+  color: #dce7ff;
+  border-color: rgba(79, 124, 255, 0.28);
   background: rgba(255, 255, 255, 0.03);
 }
 
