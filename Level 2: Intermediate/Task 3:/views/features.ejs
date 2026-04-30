@@ -36,10 +36,10 @@
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav nav-center">
               <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-              <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
-              <li class="nav-item"><a class="nav-link active" href="/projects">Projects</a></li>
+              <li class="nav-item"><a class="nav-link active" href="/features">Features</a></li>
               <li class="nav-item"><a class="nav-link" href="/process">Work</a></li>
+              <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
+              <li class="nav-item"><a class="nav-link" href="/solutions">Solutions</a></li>
               <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
           </div>
@@ -51,11 +51,11 @@
       <section class="page-top-section">
         <div class="container">
           <div class="section-heading text-center" data-reveal="up">
-            <p class="section-tag">Projects</p>
-            <h1>Selected frontend project directions</h1>
+            <p class="section-tag">Features</p>
+            <h1>What this website delivers</h1>
             <p>
-              A clean overview of practical website and interface work designed for
-              business use, better structure, and responsive presentation.
+              A separate features page for the main strengths of the website, so the
+              landing page stays focused only on the first impression.
             </p>
           </div>
         </div>
@@ -64,19 +64,11 @@
       <section class="content-section">
         <div class="container">
           <div class="row g-4">
-            <% projectCards.forEach((project, index) => { %>
-              <div class="col-lg-4 col-md-6" data-reveal="up">
-                <article class="content-card project-card h-100">
-                  <div class="project-card-top">
-                    <span class="project-card-index"><%= `0${index + 1}`.slice(-2) %></span>
-                    <span class="project-card-category"><%= project.category %></span>
-                  </div>
-                  <h2 class="h4"><%= project.title %></h2>
-                  <p><%= project.summary %></p>
-                  <div class="project-card-footer">
-                    <small>Outcome</small>
-                    <p class="mb-0"><%= project.outcome %></p>
-                  </div>
+            <% featureCards.forEach((card) => { %>
+              <div class="col-md-6 col-lg-4" data-reveal="up">
+                <article class="content-card h-100">
+                  <h2 class="h4"><%= card.title %></h2>
+                  <p class="mb-0"><%= card.description %></p>
                 </article>
               </div>
             <% }) %>
@@ -93,10 +85,10 @@
         </div>
         <div class="footer-links">
           <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/services">Services</a>
-          <a href="/projects">Projects</a>
+          <a href="/features">Features</a>
           <a href="/process">Work</a>
+          <a href="/services">Services</a>
+          <a href="/solutions">Solutions</a>
           <a href="/contact">Contact</a>
         </div>
       </div>

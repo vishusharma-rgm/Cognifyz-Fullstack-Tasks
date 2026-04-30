@@ -22,27 +22,27 @@ const homeFeatureCards = [
   }
 ];
 
-const projectCards = [
+const solutionCards = [
   {
-    title: "Corporate Service Website",
-    category: "Business Website",
+    title: "Service Business Websites",
+    category: "Business Presence",
     summary:
-      "A structured company website focused on clear messaging, responsive sections, and better service presentation.",
-    outcome: "Improved readability and stronger homepage hierarchy for first-time visitors."
+      "Structured websites for agencies, consultants, and service teams that need clear messaging and easy navigation.",
+    outcome: "A more professional first impression with cleaner service presentation."
   },
   {
-    title: "Startup Landing Page",
-    category: "Landing Page",
+    title: "Landing Page Solutions",
+    category: "Lead Generation",
     summary:
-      "A conversion-focused landing page with stronger section flow, cleaner calls to action, and mobile-friendly spacing.",
-    outcome: "Sharper product positioning and easier browsing across desktop and mobile."
+      "Focused landing pages with stronger call-to-action sections, better content flow, and responsive presentation.",
+    outcome: "Clearer product communication and stronger inquiry-focused layout."
   },
   {
-    title: "Dashboard UI Refresh",
-    category: "Internal Product UI",
+    title: "Internal Dashboard Interfaces",
+    category: "Product Support",
     summary:
-      "A cleaner dashboard interface with better grouping, spacing, and visual consistency for business teams.",
-    outcome: "More organized data views and a simpler interface for daily internal use."
+      "Organized frontend layouts for internal tools, reports, and data-driven interfaces used by business teams.",
+    outcome: "Better screen organization and easier day-to-day usage for internal users."
   }
 ];
 
@@ -202,10 +202,7 @@ function buildSharedPageModel(activePage, pageTitle) {
 
 function buildHomePageModel() {
   return {
-    ...buildSharedPageModel("home", "Task 3 - Modern Multi-Page Website"),
-    featureCards: homeFeatureCards,
-    processSteps,
-    projectCards
+    ...buildSharedPageModel("home", "Task 3 - Modern Multi-Page Website")
   };
 }
 
@@ -235,10 +232,17 @@ function buildProcessPageModel() {
   };
 }
 
-function buildProjectsPageModel() {
+function buildFeaturesPageModel() {
   return {
-    ...buildSharedPageModel("projects", "Projects - Cognifyz Solutions"),
-    projectCards
+    ...buildSharedPageModel("features", "Features - Cognifyz Solutions"),
+    featureCards: homeFeatureCards
+  };
+}
+
+function buildSolutionsPageModel() {
+  return {
+    ...buildSharedPageModel("solutions", "Solutions - Cognifyz Solutions"),
+    solutionCards
   };
 }
 
@@ -260,8 +264,12 @@ app.get("/services", (req, res) => {
   res.render("services", buildServicesPageModel());
 });
 
-app.get("/projects", (req, res) => {
-  res.render("projects", buildProjectsPageModel());
+app.get("/features", (req, res) => {
+  res.render("features", buildFeaturesPageModel());
+});
+
+app.get("/solutions", (req, res) => {
+  res.render("solutions", buildSolutionsPageModel());
 });
 
 app.get("/process", (req, res) => {
@@ -282,6 +290,7 @@ module.exports = app;
 module.exports.buildHomePageModel = buildHomePageModel;
 module.exports.buildAboutPageModel = buildAboutPageModel;
 module.exports.buildServicesPageModel = buildServicesPageModel;
-module.exports.buildProjectsPageModel = buildProjectsPageModel;
+module.exports.buildFeaturesPageModel = buildFeaturesPageModel;
+module.exports.buildSolutionsPageModel = buildSolutionsPageModel;
 module.exports.buildProcessPageModel = buildProcessPageModel;
 module.exports.buildContactPageModel = buildContactPageModel;

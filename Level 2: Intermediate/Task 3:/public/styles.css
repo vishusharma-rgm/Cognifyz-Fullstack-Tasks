@@ -224,6 +224,37 @@ body {
   border-color: rgba(23, 92, 211, 0.2) !important;
 }
 
+.site-header {
+  background: transparent !important;
+}
+
+.navbar-shell {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+.navbar-shell::before {
+  display: none !important;
+}
+
+.navbar-shell .navbar-collapse,
+.nav-shell-inner,
+.nav-center {
+  background: transparent !important;
+}
+
+.navbar-shell .navbar-toggler {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: none !important;
+}
+
+.nav-link {
+  color: #475467 !important;
+}
+
 /* Final light-theme contrast cleanup */
 body {
   background: #f5f7fb !important;
@@ -3711,4 +3742,66 @@ body {
   background: #eff4ff !important;
   color: #175cd3 !important;
   border-color: rgba(23, 92, 211, 0.2) !important;
+}
+
+/* Navbar final override */
+.site-header {
+  background: transparent !important;
+}
+
+.navbar-shell {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.48),
+      rgba(255, 255, 255, 0.22) 52%,
+      rgba(219, 234, 254, 0.2)
+    ) !important;
+  border: 1px solid rgba(255, 255, 255, 0.46) !important;
+  box-shadow:
+    0 20px 48px rgba(15, 23, 42, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18) !important;
+  backdrop-filter: blur(28px) saturate(185%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(185%) !important;
+}
+
+.navbar-shell::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  display: block !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.06)),
+    radial-gradient(circle at 18% 28%, rgba(255, 255, 255, 0.42), transparent 28%),
+    radial-gradient(circle at 82% 24%, rgba(191, 219, 254, 0.28), transparent 24%) !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+}
+
+.navbar-shell .navbar-collapse,
+.nav-shell-inner,
+.nav-center {
+  background: transparent !important;
+}
+
+.navbar-shell .navbar-toggler {
+  background: rgba(255, 255, 255, 0.34) !important;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+}
+
+.nav-link {
+  color: #475467 !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #175cd3 !important;
+  background: rgba(255, 255, 255, 0.46) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 6px 16px rgba(23, 92, 211, 0.08) !important;
+  transform: none !important;
 }

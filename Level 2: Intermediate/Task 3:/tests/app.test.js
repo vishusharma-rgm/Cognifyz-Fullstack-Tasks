@@ -16,22 +16,20 @@ function renderView(view, data) {
   });
 }
 
-test("home page model includes features, timeline steps, and projects", () => {
+test("home page model returns the shared landing model", () => {
   const model = app.buildHomePageModel();
 
-  assert.equal(model.featureCards.length, 3);
-  assert.equal(model.processSteps.length, 4);
-  assert.equal(model.projectCards.length, 3);
+  assert.equal(model.activePage, "home");
+  assert.equal(model.pageTitle, "Task 3 - Modern Multi-Page Website");
 });
 
-test("home page renders the hero, services preview, and timeline", async () => {
+test("home page renders the landing hero only", async () => {
   const html = await renderView("index", app.buildHomePageModel());
 
   assert.match(html, /Frontend design and development for modern business websites/);
-  assert.match(html, /timeline-wrapper/);
-  assert.match(html, /Explore Services/);
-  assert.match(html, /Recent frontend project directions/);
-  assert.match(html, /View All Projects/);
+  assert.match(html, /View Features/);
+  assert.doesNotMatch(html, /timeline-wrapper/);
+  assert.doesNotMatch(html, /Recent frontend project directions/);
 });
 
 test("about page renders company information and long-form sections", async () => {
@@ -49,12 +47,20 @@ test("services page renders service grid cards", async () => {
   assert.match(html, /service-grid-card/);
 });
 
-test("projects page renders project cards", async () => {
-  const html = await renderView("projects", app.buildProjectsPageModel());
+test("features page renders the feature cards", async () => {
+  const html = await renderView("features", app.buildFeaturesPageModel());
 
-  assert.match(html, /Selected frontend project directions/);
-  assert.match(html, /Corporate Service Website/);
-  assert.match(html, /project-card/);
+  assert.match(html, /What this website delivers/);
+  assert.match(html, /Responsive Systems/);
+  assert.match(html, /content-card/);
+});
+
+test("solutions page renders the business solution cards", async () => {
+  const html = await renderView("solutions", app.buildSolutionsPageModel());
+
+  assert.match(html, /Website solutions for different business needs/);
+  assert.match(html, /Service Business Websites/);
+  assert.match(html, /Lead Generation/);
 });
 
 test("process page renders the vertical timeline", async () => {
