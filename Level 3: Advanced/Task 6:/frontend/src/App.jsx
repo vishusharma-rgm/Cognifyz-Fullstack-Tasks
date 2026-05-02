@@ -1,30 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import axios from "axios";
 
 const API_URL = "http://localhost:6000/api";
+const TOKEN_KEY = "projectFlowToken";
+const USER_KEY = "projectFlowUser";
 const emptyAuthForm = { name: "", email: "", password: "" };
-const emptyDataForm = { title: "", description: "" };
+const emptyProjectForm = { title: "", description: "" };
 
 function App() {
-  const [mode, setMode] = useState("login");
+  const [authMode, setAuthMode] = useState("login");
   const [authForm, setAuthForm] = useState(emptyAuthForm);
-  const [dataForm, setDataForm] = useState(emptyDataForm);
-  const [entries, setEntries] = useState([]);
+  const [projectForm, setProjectForm] = useState(emptyProjectForm);
+  const [projects, setProjects] = useState([]);
   const [editingId, setEditingId] = useState(null);
-  const [message, setMessage] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("task6Token") || "");
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("task6User") || "null"));
+  const [isProjectFormOpen, setIsProjectFormOpen] = useState(false);
+  const [toast, setToast] = useState("");
+  const [fieldError, setFieldError] = useState("");
+  const [token, setToken] = useState(localStorage.getItem(TOKEN_KEY) || "");
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem(USER_KEY) || "null"));
+
+  const axiosConfig = useMemo(
+    () => ({
+      headers: { Authorization: `Bearer ${token}` }
+    }),
+    [token]
+  );
 
   useEffect(() => {
-    fetchEntries();
-  }, []);
+    if (token) {
+      loadProjects();
+    }
+  }, [token]);
 
-  async function fetchEntries() {
+  async function loadProjects() {
     try {
-      const response = await fetch(`${API_URL}/data`);
-      const result = await response.json();
-      setEntries(result.data || []);
+      const response = await axios.get(`${API_URL}/projects`, axiosConfig);
+      setProjects(response.data.data || []);
     } catch (error) {
-      setMessage("Unable to load entries. Check backend and MongoDB.");
+      setToast(error.response?.data?.message || "Unable to load your workspace.");
     }
   }
 
@@ -33,222 +46,280 @@ function App() {
     setAuthForm((current) => ({ ...current, [name]: value }));
   }
 
-  function updateDataForm(event) {
+  function updateProjectForm(event) {
     const { name, value } = event.target;
-    setDataForm((current) => ({ ...current, [name]: value }));
+    setProjectForm((current) => ({ ...current, [name]: value }));
+  }
+
+  function validateAuthForm() {
+    if (authMode === "signup" && !authForm.name.trim()) {
+      return "Name is required.";
+    }
+
+    if (!authForm.email.trim()) {
+      return "Email is required.";
+    }
+
+    if (!authForm.email.includes("@")) {
+      return "Enter a valid email address.";
+    }
+
+    if (authForm.password.length < 6) {
+      return "Password must be at least 6 characters.";
+    }
+
+    return "";
   }
 
   async function submitAuth(event) {
     event.preventDefault();
-    setMessage("");
+    setToast("");
 
-    const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
+    const validationError = validateAuthForm();
+
+    if (validationError) {
+      setFieldError(validationError);
+      return;
+    }
+
+    setFieldError("");
+
+    const endpoint = authMode === "login" ? "/auth/login" : "/auth/register";
     const payload =
-      mode === "login"
+      authMode === "login"
         ? { email: authForm.email, password: authForm.password }
         : authForm;
 
     try {
-      const response = await fetch(`${API_URL}${endpoint}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json();
-
-      if (!response.ok) {
-        setMessage(result.message || "Authentication failed");
-        return;
-      }
-
-      localStorage.setItem("task6Token", result.token);
-      localStorage.setItem("task6User", JSON.stringify(result.user));
-      setToken(result.token);
-      setUser(result.user);
+      const response = await axios.post(`${API_URL}${endpoint}`, payload);
+      localStorage.setItem(TOKEN_KEY, response.data.token);
+      localStorage.setItem(USER_KEY, JSON.stringify(response.data.user));
+      setToken(response.data.token);
+      setUser(response.data.user);
       setAuthForm(emptyAuthForm);
-      setMessage(mode === "login" ? "Logged in successfully" : "Account created successfully");
+      setToast(authMode === "login" ? "Welcome back." : "Account created successfully.");
     } catch (error) {
-      setMessage("Authentication request failed");
+      setToast(error.response?.data?.message || "Invalid credentials.");
     }
   }
 
   function logout() {
-    localStorage.removeItem("task6Token");
-    localStorage.removeItem("task6User");
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
     setToken("");
     setUser(null);
+    setProjects([]);
+    setProjectForm(emptyProjectForm);
     setEditingId(null);
-    setDataForm(emptyDataForm);
-    setMessage("Logged out");
+    setIsProjectFormOpen(false);
+    setToast("Signed out successfully.");
   }
 
-  async function submitData(event) {
+  function openCreateForm() {
+    setEditingId(null);
+    setProjectForm(emptyProjectForm);
+    setIsProjectFormOpen(true);
+    setToast("");
+  }
+
+  function openEditForm(project) {
+    setEditingId(project._id);
+    setProjectForm({ title: project.title, description: project.description });
+    setIsProjectFormOpen(true);
+    setToast("");
+  }
+
+  function closeProjectForm() {
+    setEditingId(null);
+    setProjectForm(emptyProjectForm);
+    setIsProjectFormOpen(false);
+  }
+
+  async function submitProject(event) {
     event.preventDefault();
-    setMessage("");
-
-    if (!token) {
-      setMessage("Please login before creating or editing entries");
-      return;
-    }
-
-    const url = editingId ? `${API_URL}/data/${editingId}` : `${API_URL}/data`;
-    const method = editingId ? "PUT" : "POST";
+    setToast("");
 
     try {
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify(dataForm)
-      });
-      const result = await response.json();
-
-      if (!response.ok) {
-        setMessage(result.message || "Unable to save entry");
-        return;
+      if (editingId) {
+        await axios.put(`${API_URL}/projects/${editingId}`, projectForm, axiosConfig);
+        setToast("Project updated.");
+      } else {
+        await axios.post(`${API_URL}/projects`, projectForm, axiosConfig);
+        setToast("Project created.");
       }
 
-      setDataForm(emptyDataForm);
-      setEditingId(null);
-      setMessage(editingId ? "Entry updated successfully" : "Entry created successfully");
-      fetchEntries();
+      closeProjectForm();
+      loadProjects();
     } catch (error) {
-      setMessage("Unable to save entry");
+      setToast(error.response?.data?.message || "Unable to save project.");
     }
   }
 
-  function startEdit(entry) {
-    setEditingId(entry._id);
-    setDataForm({ title: entry.title, description: entry.description });
-    setMessage("");
-  }
-
-  function cancelEdit() {
-    setEditingId(null);
-    setDataForm(emptyDataForm);
-  }
-
-  async function deleteEntry(id) {
-    if (!token) {
-      setMessage("Please login before deleting entries");
-      return;
-    }
-
+  async function deleteProject(projectId) {
     try {
-      const response = await fetch(`${API_URL}/data/${id}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const result = await response.json();
-
-      if (!response.ok) {
-        setMessage(result.message || "Unable to delete entry");
-        return;
-      }
-
-      setMessage("Entry deleted successfully");
-      fetchEntries();
+      await axios.delete(`${API_URL}/projects/${projectId}`, axiosConfig);
+      setToast("Project deleted.");
+      loadProjects();
     } catch (error) {
-      setMessage("Unable to delete entry");
+      setToast(error.response?.data?.message || "Unable to delete project.");
     }
+  }
+
+  if (!user) {
+    return (
+      <main className="auth-page">
+        <section className="auth-card">
+          <div className="auth-brand">ProjectFlow</div>
+          <span className="eyebrow">Account Access</span>
+          <h1>{authMode === "login" ? "Member Login" : "Create Account"}</h1>
+          <p>Access your private project workspace with secure authentication.</p>
+
+          <div className="mode-switch">
+            <button
+              type="button"
+              className={authMode === "login" ? "active" : ""}
+              onClick={() => {
+                setAuthMode("login");
+                setFieldError("");
+                setToast("");
+              }}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              className={authMode === "signup" ? "active" : ""}
+              onClick={() => {
+                setAuthMode("signup");
+                setFieldError("");
+                setToast("");
+              }}
+            >
+              Sign Up
+            </button>
+          </div>
+
+          <form className="auth-form" onSubmit={submitAuth}>
+            {authMode === "signup" && (
+              <label>
+                Name
+                <input type="text" name="name" value={authForm.name} onChange={updateAuthForm} placeholder="Your name" />
+              </label>
+            )}
+            <label>
+              Email
+              <input type="email" name="email" value={authForm.email} onChange={updateAuthForm} placeholder="name@company.com" />
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                name="password"
+                value={authForm.password}
+                onChange={updateAuthForm}
+                placeholder="Minimum 6 characters"
+              />
+            </label>
+            {fieldError && <div className="error-toast">{fieldError}</div>}
+            {toast && <div className="error-toast">{toast}</div>}
+            <button type="submit" className="primary-button">
+              {authMode === "login" ? "Sign In" : "Create Account"}
+            </button>
+          </form>
+        </section>
+      </main>
+    );
   }
 
   return (
-    <main className="app">
-      <section className="panel">
-        <div className="header-row">
+    <div className="portal-shell">
+      <aside className="sidebar">
+        <div className="brand-row">
+          <div className="brand-mark">PF</div>
           <div>
-            <h1>Task 6 Auth CRUD App</h1>
-            <p>MongoDB persistence with JWT-protected create, update, and delete.</p>
+            <h1>ProjectFlow</h1>
+            <p>Secure workspace</p>
           </div>
-          {user && (
-            <button type="button" className="secondary" onClick={logout}>
-              Logout
-            </button>
-          )}
         </div>
+        <nav className="nav-list" aria-label="Workspace navigation">
+          <a className="nav-item active" href="#projects">Projects</a>
+          <a className="nav-item" href="#security">Security</a>
+          <a className="nav-item" href="#settings">Settings</a>
+        </nav>
+      </aside>
 
-        {!user ? (
-          <form className="form" onSubmit={submitAuth}>
-            <div className="tabs">
-              <button type="button" className={mode === "login" ? "active" : ""} onClick={() => setMode("login")}>
-                Login
-              </button>
-              <button type="button" className={mode === "signup" ? "active" : ""} onClick={() => setMode("signup")}>
-                Signup
-              </button>
-            </div>
-
-            {mode === "signup" && (
-              <input type="text" name="name" placeholder="Name" value={authForm.name} onChange={updateAuthForm} />
-            )}
-            <input type="email" name="email" placeholder="Email" value={authForm.email} onChange={updateAuthForm} />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={authForm.password}
-              onChange={updateAuthForm}
-            />
-            <button type="submit">{mode === "login" ? "Login" : "Create Account"}</button>
-          </form>
-        ) : (
-          <p className="signed-in">Signed in as {user.name} ({user.email})</p>
-        )}
-
-        {message && <p className="message">{message}</p>}
-      </section>
-
-      <section className="panel">
-        <h2>{editingId ? "Edit Entry" : "Create Entry"}</h2>
-        <form className="form" onSubmit={submitData}>
-          <input type="text" name="title" placeholder="Title" value={dataForm.title} onChange={updateDataForm} />
-          <textarea
-            name="description"
-            placeholder="Description"
-            value={dataForm.description}
-            onChange={updateDataForm}
-          />
-          <div className="actions">
-            <button type="submit">{editingId ? "Update Entry" : "Create Entry"}</button>
-            {editingId && (
-              <button type="button" className="secondary" onClick={cancelEdit}>
-                Cancel
-              </button>
-            )}
+      <main className="workspace">
+        <header className="workspace-header">
+          <div>
+            <span className="eyebrow">Private Workspace</span>
+            <h2>Welcome, {user.name}</h2>
+            <p>Your projects are protected and visible only to your account.</p>
           </div>
-        </form>
-      </section>
+          <div className="header-actions">
+            <button type="button" className="secondary-button" onClick={logout}>Sign Out</button>
+            <button type="button" className="primary-button" onClick={openCreateForm}>New Project</button>
+          </div>
+        </header>
 
-      <section className="panel">
-        <h2>Data Entries</h2>
-        {entries.length === 0 ? (
-          <p>No entries found.</p>
-        ) : (
-          <ul className="entry-list">
-            {entries.map((entry) => (
-              <li key={entry._id} className="entry-item">
-                <div>
-                  <h3>{entry.title}</h3>
-                  <p>{entry.description}</p>
-                  {entry.owner && <small>Owner: {entry.owner.name}</small>}
-                </div>
-                <div className="actions">
-                  <button type="button" onClick={() => startEdit(entry)}>
-                    Edit
-                  </button>
-                  <button type="button" className="danger" onClick={() => deleteEntry(entry._id)}>
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+        {toast && <div className="success-toast">{toast}</div>}
+
+        {isProjectFormOpen && (
+          <section className="form-panel">
+            <div>
+              <span className="eyebrow">{editingId ? "Update" : "Create"}</span>
+              <h3>{editingId ? "Edit Project" : "New Project"}</h3>
+            </div>
+            <form className="project-form" onSubmit={submitProject}>
+              <label>
+                Title
+                <input type="text" name="title" value={projectForm.title} onChange={updateProjectForm} placeholder="Project title" />
+              </label>
+              <label>
+                Description
+                <textarea
+                  name="description"
+                  value={projectForm.description}
+                  onChange={updateProjectForm}
+                  placeholder="Define the project scope"
+                />
+              </label>
+              <div className="form-actions">
+                <button type="button" className="secondary-button" onClick={closeProjectForm}>Cancel</button>
+                <button type="submit" className="primary-button">{editingId ? "Save Changes" : "Create Project"}</button>
+              </div>
+            </form>
+          </section>
         )}
-      </section>
-    </main>
+
+        <section className="project-section" id="projects">
+          <div className="section-header">
+            <div>
+              <h3>My Projects</h3>
+              <p>Only projects created by your account appear here.</p>
+            </div>
+            <strong>{projects.length} total</strong>
+          </div>
+
+          {projects.length === 0 ? (
+            <div className="empty-state">No projects yet. Create a project to start building your workspace.</div>
+          ) : (
+            <div className="project-grid">
+              {projects.map((project) => (
+                <article className="project-card" key={project._id}>
+                  <div className="card-accent" />
+                  <h4>{project.title}</h4>
+                  <p>{project.description}</p>
+                  <div className="card-actions">
+                    <button type="button" className="text-button" onClick={() => openEditForm(project)}>Edit</button>
+                    <button type="button" className="danger-button" onClick={() => deleteProject(project._id)}>Delete</button>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
+    </div>
   );
 }
 
