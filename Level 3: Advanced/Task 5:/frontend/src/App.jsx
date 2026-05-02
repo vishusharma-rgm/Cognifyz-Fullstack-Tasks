@@ -10,6 +10,7 @@ function App() {
   const [projects, setProjects] = useState([]);
   const [draft, setDraft] = useState(emptyProject);
   const [editingId, setEditingId] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
   const [message, setMessage] = useState("");
 
   const grouped = useMemo(
@@ -37,6 +38,7 @@ function App() {
     try {
       await axios.post(API_URL, draft);
       setDraft(emptyProject);
+      setIsAdding(false);
       loadProjects();
     } catch (error) {
       setMessage(error.response?.data?.message || "Unable to add project.");
@@ -52,6 +54,23 @@ function App() {
         title: nextProject.title,
         description: nextProject.description,
         status: nextProject.status
+      });
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Unable to save project.");
+      loadProjects();
+    }
+  }
+
+  function updateProjectLocally(projectId, updates) {
+    setProjects((current) => current.map((project) => (project._id === projectId ? { ...project, ...updates } : project)));
+  }
+
+  async function persistProject(project) {
+    try {
+      await axios.put(`${API_URL}/${project._id}`, {
+        title: project.title,
+        description: project.description,
+        status: project.status
       });
     } catch (error) {
       setMessage(error.response?.data?.message || "Unable to save project.");
@@ -91,6 +110,22 @@ function App() {
             <kbd>⌘K</kbd>
           </div>
 
+          <button type="button" className="add-project-button" onClick={() => setIsAdding((current) => !current)}>
+            <Plus size={15} /> Add Project
+          </button>
+        </header>
+
+        <section className="page-heading">
+          <div>
+            <span className="eyebrow">PROJECTS</span>
+            <h1>Product workspace</h1>
+          </div>
+          <p>{projects.length} projects</p>
+        </section>
+
+        {message && <div className="toast">{message}</div>}
+
+        {isAdding && (
           <form className="quick-add" onSubmit={createProject}>
             <input
               aria-label="Project title"
@@ -104,19 +139,16 @@ function App() {
               value={draft.description}
               onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
             />
-            <button type="submit"><Plus size={15} /> Add Project</button>
+            <select
+              aria-label="Project status"
+              value={draft.status}
+              onChange={(event) => setDraft((current) => ({ ...current, status: event.target.value }))}
+            >
+              {statuses.map((status) => <option key={status}>{status}</option>)}
+            </select>
+            <button type="submit">Create</button>
           </form>
-        </header>
-
-        <section className="page-heading">
-          <div>
-            <span className="eyebrow">PROJECTS</span>
-            <h1>Product workspace</h1>
-          </div>
-          <p>{projects.length} projects</p>
-        </section>
-
-        {message && <div className="toast">{message}</div>}
+        )}
 
         <section className="project-board" id="projects">
           {grouped.map((group) => (
@@ -143,15 +175,21 @@ function App() {
                       <input
                         value={project.title}
                         onFocus={() => setEditingId(project._id)}
-                        onBlur={() => setEditingId(null)}
-                        onChange={(event) => updateProject(project, { title: event.target.value })}
+                        onBlur={(event) => {
+                          setEditingId(null);
+                          persistProject({ ...project, title: event.target.value });
+                        }}
+                        onChange={(event) => updateProjectLocally(project._id, { title: event.target.value })}
                       />
                       <textarea
                         rows="2"
                         value={project.description}
                         onFocus={() => setEditingId(project._id)}
-                        onBlur={() => setEditingId(null)}
-                        onChange={(event) => updateProject(project, { description: event.target.value })}
+                        onBlur={(event) => {
+                          setEditingId(null);
+                          persistProject({ ...project, description: event.target.value });
+                        }}
+                        onChange={(event) => updateProjectLocally(project._id, { description: event.target.value })}
                       />
                     </div>
 

@@ -1,47 +1,43 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { CheckCircle2, CircleDot, Inbox, LayoutGrid, LockKeyhole, Plus, Search, Settings } from "lucide-react";
 
 const API_URL = "http://localhost:6000/api";
-const TOKEN_KEY = "projectFlowToken";
-const USER_KEY = "projectFlowUser";
+const TOKEN_KEY = "workspaceToken";
+const USER_KEY = "workspaceUser";
+const statuses = ["Backlog", "In Progress", "Done"];
 const emptyAuthForm = { name: "", email: "", password: "" };
-const emptyProjectForm = { title: "", description: "" };
-const nodePositions = [
-  { left: "18%", top: "32%" },
-  { left: "48%", top: "22%" },
-  { left: "76%", top: "42%" },
-  { left: "34%", top: "68%" },
-  { left: "66%", top: "70%" }
-];
-
-function getGreeting() {
-  const hour = new Date().getHours();
-
-  if (hour < 12) return "Good morning.";
-  if (hour < 17) return "Good afternoon.";
-  return "Good evening.";
-}
+const emptyProject = { title: "", description: "", status: "In Progress" };
 
 function App() {
   const [authMode, setAuthMode] = useState("login");
   const [authForm, setAuthForm] = useState(emptyAuthForm);
-  const [projectForm, setProjectForm] = useState(emptyProjectForm);
+  const [projectForm, setProjectForm] = useState(emptyProject);
   const [projects, setProjects] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [showProjectComposer, setShowProjectComposer] = useState(false);
-  const [message, setMessage] = useState("");
-  const [focusedField, setFocusedField] = useState("");
-  const [entering, setEntering] = useState(false);
   const [token, setToken] = useState(localStorage.getItem(TOKEN_KEY) || "");
   const [user, setUser] = useState(JSON.parse(localStorage.getItem(USER_KEY) || "null"));
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const greeting = useMemo(() => getGreeting(), []);
   const axiosConfig = useMemo(() => ({ headers: { Authorization: `Bearer ${token}` } }), [token]);
+  const grouped = useMemo(
+    () => statuses.map((status) => ({ status, projects: projects.filter((project) => project.status === status) })),
+    [projects]
+  );
 
   useEffect(() => {
-    if (token && user) {
-      loadProjects();
+    if (!token || !user) {
+      if (window.location.pathname !== "/auth") {
+        window.history.replaceState(null, "", "/auth");
+      }
+      return;
     }
+
+    if (window.location.pathname === "/auth") {
+      window.history.replaceState(null, "", "/");
+    }
+
+    loadProjects();
   }, [token, user]);
 
   async function loadProjects() {
@@ -49,7 +45,8 @@ function App() {
       const response = await axios.get(`${API_URL}/projects`, axiosConfig);
       setProjects(response.data.data || []);
     } catch (error) {
-      setMessage(error.response?.data?.message || "Your secure workspace is temporarily unreachable.");
+      toast.error(error.response?.data?.message || "Session expired. Please sign in again.");
+      logout();
     }
   }
 
@@ -58,26 +55,19 @@ function App() {
     setAuthForm((current) => ({ ...current, [name]: value }));
   }
 
-  function updateProjectForm(event) {
-    const { name, value } = event.target;
-    setProjectForm((current) => ({ ...current, [name]: value }));
-  }
-
   function validateAuth() {
-    if (authMode === "signup" && !authForm.name.trim()) return "Name is required.";
-    if (!authForm.email.trim() || !authForm.email.includes("@")) return "Use a valid email.";
-    if (authForm.password.length < 6) return "Password needs at least 6 characters.";
+    if (authMode === "register" && !authForm.name.trim()) return "Name is required";
+    if (!authForm.email.trim() || !authForm.email.includes("@")) return "Use a valid email";
+    if (authForm.password.length < 6) return "Password must be at least 6 characters";
     return "";
   }
 
   async function submitAuth(event) {
     event.preventDefault();
-    setMessage("");
-
     const validation = validateAuth();
 
     if (validation) {
-      setMessage(validation);
+      toast.error(validation);
       return;
     }
 
@@ -88,7 +78,8 @@ function App() {
 
     try {
       const response = await axios.post(`${API_URL}${endpoint}`, payload);
-      setEntering(true);
+      setIsTransitioning(true);
+      toast.success(authMode === "login" ? `Welcome back, ${response.data.user.name}` : "Account created");
 
       window.setTimeout(() => {
         localStorage.setItem(TOKEN_KEY, response.data.token);
@@ -96,10 +87,10 @@ function App() {
         setToken(response.data.token);
         setUser(response.data.user);
         setAuthForm(emptyAuthForm);
-        setEntering(false);
-      }, 520);
+        setIsTransitioning(false);
+      }, 260);
     } catch (error) {
-      setMessage(error.response?.data?.message || "Invalid credentials.");
+      toast.error(error.response?.data?.message || "Invalid credentials");
     }
   }
 
@@ -109,194 +100,193 @@ function App() {
     setToken("");
     setUser(null);
     setProjects([]);
-    setShowProjectComposer(false);
-    setProjectForm(emptyProjectForm);
-    setEditingId(null);
+    window.history.replaceState(null, "", "/auth");
   }
 
-  function openComposer(project) {
-    if (project) {
-      setEditingId(project._id);
-      setProjectForm({ title: project.title, description: project.description });
-    } else {
-      setEditingId(null);
-      setProjectForm(emptyProjectForm);
-    }
-
-    setShowProjectComposer(true);
-    setMessage("");
-  }
-
-  async function submitProject(event) {
+  async function createProject(event) {
     event.preventDefault();
 
     try {
-      if (editingId) {
-        await axios.put(`${API_URL}/projects/${editingId}`, projectForm, axiosConfig);
-        setMessage("Signal refined.");
-      } else {
-        await axios.post(`${API_URL}/projects`, projectForm, axiosConfig);
-        setMessage("Signal admitted.");
-      }
-
-      setShowProjectComposer(false);
-      setProjectForm(emptyProjectForm);
-      setEditingId(null);
+      await axios.post(`${API_URL}/projects`, projectForm, axiosConfig);
+      setProjectForm(emptyProject);
+      toast.success("Project added");
       loadProjects();
     } catch (error) {
-      setMessage(error.response?.data?.message || "Complete both fields to continue.");
+      toast.error(error.response?.data?.message || "Unable to add project");
+    }
+  }
+
+  async function updateProject(project, updates) {
+    const nextProject = { ...project, ...updates };
+    setProjects((current) => current.map((item) => (item._id === project._id ? nextProject : item)));
+
+    try {
+      await axios.put(`${API_URL}/projects/${project._id}`, nextProject, axiosConfig);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to save project");
+      loadProjects();
+    }
+  }
+
+  function updateProjectLocally(projectId, updates) {
+    setProjects((current) => current.map((project) => (project._id === projectId ? { ...project, ...updates } : project)));
+  }
+
+  async function persistProject(project) {
+    try {
+      await axios.put(`${API_URL}/projects/${project._id}`, project, axiosConfig);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Unable to save project");
+      loadProjects();
     }
   }
 
   async function deleteProject(projectId) {
     try {
       await axios.delete(`${API_URL}/projects/${projectId}`, axiosConfig);
-      setMessage("Signal removed.");
+      toast.success("Project deleted");
       loadProjects();
     } catch (error) {
-      setMessage(error.response?.data?.message || "Unable to remove signal.");
+      toast.error(error.response?.data?.message || "Unable to delete project");
     }
   }
 
   if (!user) {
     return (
-      <main className={`entry-portal ${focusedField ? "field-focused" : ""} ${entering ? "entering" : ""}`}>
-        <div className="light light-one" />
-        <div className="light light-two" />
-        <section className="entry-card" aria-label="Secure account access">
-          <button
-            type="button"
-            className="quiet-mode"
-            onClick={() => {
-              setAuthMode(authMode === "login" ? "signup" : "login");
-              setMessage("");
-            }}
-          >
-            {authMode === "login" ? "Request access" : "I have access"}
-          </button>
+      <main className={`auth-gateway ${isTransitioning ? "fade-out" : ""}`}>
+        <Toaster position="top-center" toastOptions={{ duration: 2600 }} />
+        <section className="auth-card" aria-label="Secure gateway">
+          <div className="auth-icon"><LockKeyhole size={17} /></div>
+          <span className="eyebrow">SECURE GATEWAY</span>
+          <h1>Workspace</h1>
+          <p>Sign in to continue to your protected project environment.</p>
 
-          <h1>{greeting}</h1>
-          <p>{authMode === "login" ? "Enter quietly." : "Create your private key."}</p>
-
-          <form className="zero-form" onSubmit={submitAuth}>
-            {authMode === "signup" && (
-              <label className={authForm.name || focusedField === "name" ? "active" : ""}>
-                <span>Name</span>
-                <input
-                  name="name"
-                  value={authForm.name}
-                  onChange={updateAuthForm}
-                  onFocus={() => setFocusedField("name")}
-                  onBlur={() => setFocusedField("")}
-                  autoComplete="name"
-                />
+          <form className="auth-form" onSubmit={submitAuth}>
+            {authMode === "register" && (
+              <label>
+                Name
+                <input name="name" value={authForm.name} onChange={updateAuthForm} autoComplete="name" />
               </label>
             )}
-            <label className={authForm.email || focusedField === "email" ? "active" : ""}>
-              <span>Email</span>
-              <input
-                name="email"
-                type="email"
-                value={authForm.email}
-                onChange={updateAuthForm}
-                onFocus={() => setFocusedField("email")}
-                onBlur={() => setFocusedField("")}
-                autoComplete="email"
-              />
+            <label>
+              Email
+              <input name="email" type="email" value={authForm.email} onChange={updateAuthForm} autoComplete="email" />
             </label>
-            <label className={authForm.password || focusedField === "password" ? "active" : ""}>
-              <span>Password</span>
+            <label>
+              Password
               <input
                 name="password"
                 type="password"
                 value={authForm.password}
                 onChange={updateAuthForm}
-                onFocus={() => setFocusedField("password")}
-                onBlur={() => setFocusedField("")}
                 autoComplete={authMode === "login" ? "current-password" : "new-password"}
               />
             </label>
-            {message && <div className="portal-message">{message}</div>}
-            <button type="submit" className="tactile-button">
-              {authMode === "login" ? "Enter" : "Join"}
-            </button>
+            <button type="submit">{authMode === "login" ? "Sign In" : "Create Account"}</button>
           </form>
+
+          <button
+            type="button"
+            className="switch-auth"
+            onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
+          >
+            {authMode === "login" ? "Need access? Create an account" : "Already have access? Sign in"}
+          </button>
         </section>
       </main>
     );
   }
 
   return (
-    <main className="secure-canvas">
-      <div className="light light-one" />
-      <div className="light light-two" />
-
-      <header className="secure-header">
-        <button type="button" className="wordmark" onClick={loadProjects}>ProjectFlow</button>
-        <div className="secure-actions">
-          <button type="button" onClick={() => openComposer()}>+</button>
-          <button type="button" onClick={logout}>Exit</button>
+    <main className="workspace-shell fade-in">
+      <Toaster position="top-center" toastOptions={{ duration: 2400 }} />
+      <aside className="sidebar">
+        <div className="brand">
+          <div className="brand-icon"><LockKeyhole size={15} /></div>
+          <span>Workspace</span>
         </div>
-      </header>
+        <nav className="sidebar-nav" aria-label="Workspace navigation">
+          <a className="active" href="#projects"><LayoutGrid size={16} /> Projects</a>
+          <a href="#inbox"><Inbox size={16} /> Inbox</a>
+          <a href="#settings"><Settings size={16} /> Settings</a>
+        </nav>
+      </aside>
 
-      <section className="secure-copy">
-        <span>Private canvas</span>
-        <h1>{user.name}'s workspace</h1>
-      </section>
+      <section className="main-panel">
+        <header className="topbar">
+          <div className="command-bar">
+            <Search size={15} />
+            <span>Search secure workspace</span>
+            <kbd>⌘K</kbd>
+          </div>
+          <button type="button" className="sign-out" onClick={logout}>Sign Out</button>
+        </header>
 
-      <section className="secure-node-field" aria-label="Protected projects">
-        {projects.map((project, index) => {
-          const position = nodePositions[index % nodePositions.length];
-          return (
-            <article className="secure-node" key={project._id} style={position}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
-              <h2>{project.title}</h2>
-              <p>{project.description}</p>
-              <div>
-                <button type="button" onClick={() => openComposer(project)}>Refine</button>
-                <button type="button" onClick={() => deleteProject(project._id)}>Remove</button>
-              </div>
-            </article>
-          );
-        })}
-
-        {projects.length === 0 && (
-          <button type="button" className="empty-orbit" onClick={() => openComposer()}>
-            Admit first signal
-          </button>
-        )}
-      </section>
-
-      {message && <aside className="secure-message">{message}</aside>}
-
-      {showProjectComposer && (
-        <section className="composer" aria-label="Project composer">
-          <form onSubmit={submitProject}>
-            <button type="button" className="close-composer" onClick={() => setShowProjectComposer(false)}>Close</button>
-            <label>
-              <span>Title</span>
-              <textarea
-                rows="1"
-                name="title"
-                value={projectForm.title}
-                onChange={updateProjectForm}
-                placeholder="Signal name"
-              />
-            </label>
-            <label>
-              <span>Description</span>
-              <textarea
-                rows="4"
-                name="description"
-                value={projectForm.description}
-                onChange={updateProjectForm}
-                placeholder="What should this become?"
-              />
-            </label>
-            <button type="submit" className="tactile-button">{editingId ? "Save" : "Admit"}</button>
-          </form>
+        <section className="page-heading">
+          <div>
+            <span className="eyebrow">AUTHENTICATED</span>
+            <h1>{user.name}'s workspace</h1>
+          </div>
+          <p>{projects.length} private projects</p>
         </section>
-      )}
+
+        <form className="quick-add" onSubmit={createProject}>
+          <input
+            placeholder="Project title"
+            value={projectForm.title}
+            onChange={(event) => setProjectForm((current) => ({ ...current, title: event.target.value }))}
+          />
+          <input
+            placeholder="Description"
+            value={projectForm.description}
+            onChange={(event) => setProjectForm((current) => ({ ...current, description: event.target.value }))}
+          />
+          <button type="submit"><Plus size={15} /> Add Project</button>
+        </form>
+
+        <section className="project-board" id="projects">
+          {grouped.map((group) => (
+            <div className="status-column" key={group.status}>
+              <div className="column-header">
+                <span className="status-dot" />
+                <span>{group.status.toUpperCase()}</span>
+                <small>{group.projects.length}</small>
+              </div>
+              <div className="project-list">
+                {group.projects.map((project) => (
+                  <article className="project-row" key={project._id}>
+                    <button
+                      type="button"
+                      className="status-icon"
+                      onClick={() => updateProject(project, { status: project.status === "Done" ? "In Progress" : "Done" })}
+                    >
+                      {project.status === "Done" ? <CheckCircle2 size={17} /> : <CircleDot size={17} />}
+                    </button>
+                    <div className="editable-fields">
+                      <input
+                        value={project.title}
+                        onChange={(event) => updateProjectLocally(project._id, { title: event.target.value })}
+                        onBlur={(event) => persistProject({ ...project, title: event.target.value })}
+                      />
+                      <textarea
+                        rows="2"
+                        value={project.description}
+                        onChange={(event) => updateProjectLocally(project._id, { description: event.target.value })}
+                        onBlur={(event) => persistProject({ ...project, description: event.target.value })}
+                      />
+                    </div>
+                    <select value={project.status} onChange={(event) => updateProject(project, { status: event.target.value })}>
+                      {statuses.map((status) => <option key={status}>{status}</option>)}
+                    </select>
+                    <button type="button" className="row-action" onClick={() => deleteProject(project._id)}>Delete</button>
+                  </article>
+                ))}
+                {group.projects.length === 0 && <div className="empty-state">No projects</div>}
+              </div>
+            </div>
+          ))}
+        </section>
+      </section>
     </main>
   );
 }

@@ -3,13 +3,14 @@ const projectService = require("../services/projectService");
 function validateProject(req, res) {
   const title = req.body.title?.trim();
   const description = req.body.description?.trim();
+  const status = req.body.status || "In Progress";
 
   if (!title || !description) {
     res.status(400).json({ success: false, message: "Title and description are required" });
     return null;
   }
 
-  return { title, description };
+  return { title, description, status };
 }
 
 async function getProjects(req, res) {

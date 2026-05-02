@@ -124,9 +124,15 @@ kbd {
   display: flex;
   gap: 8px;
   align-items: center;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 10px;
 }
 
 .quick-add input,
+.quick-add select,
 .project-row input,
 .project-row textarea,
 .project-row select {
@@ -136,14 +142,16 @@ kbd {
   color: var(--black);
 }
 
-.quick-add input {
+.quick-add input,
+.quick-add select {
   width: 150px;
   min-height: 36px;
   padding: 0 10px;
   font-size: 0.82rem;
 }
 
-.quick-add button {
+.quick-add button,
+.add-project-button {
   min-height: 36px;
   display: flex;
   align-items: center;
@@ -155,6 +163,10 @@ kbd {
   padding: 0 12px;
   font-size: 0.82rem;
   font-weight: 600;
+}
+
+.add-project-button {
+  margin-left: auto;
 }
 
 .page-heading {

@@ -12,6 +12,11 @@ const projectSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
+    status: {
+      type: String,
+      enum: ["Backlog", "In Progress", "Done"],
+      default: "In Progress"
+    },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
