@@ -22,7 +22,6 @@ test("home page model includes the landing page sections", () => {
   assert.equal(model.featureCards.length, 3);
   assert.equal(model.processSteps.length, 4);
   assert.equal(model.serviceCards.length, 6);
-  assert.equal(model.solutionCards.length, 3);
 });
 
 test("home page renders the full long landing page", async () => {
@@ -32,9 +31,10 @@ test("home page renders the full long landing page", async () => {
   assert.match(html, /View Work/);
   assert.match(html, /How the frontend work moves forward/);
   assert.match(html, /Frontend services in the same landing page/);
-  assert.match(html, /Business website solutions in one place/);
+  assert.match(html, /overall website direction in one smooth flow/);
   assert.match(html, /What this website delivers/);
   assert.doesNotMatch(html, /Ready to discuss your website/);
+  assert.doesNotMatch(html, /Business website solutions in one place/);
 });
 
 test("about page renders company information and long-form sections", async () => {

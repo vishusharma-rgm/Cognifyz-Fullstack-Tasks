@@ -38,7 +38,6 @@
               <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
               <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-              <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
               <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
               <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
@@ -105,6 +104,8 @@
             <p>
               Service blocks are now part of the landing page itself, making the page
               longer and more complete without forcing separate navigation first.
+              This helps visitors understand the core offerings, the type of frontend
+              work available, and the overall website direction in one smooth flow.
             </p>
           </div>
 
@@ -126,39 +127,6 @@
         </div>
       </section>
 
-      <section class="content-section landing-solutions-section" id="solutions">
-        <div class="container">
-          <% const safeSolutionCards = typeof solutionCards !== "undefined" ? solutionCards : []; %>
-          <div class="section-heading text-center" data-reveal="up">
-            <p class="section-tag">Solutions</p>
-            <h2>Business website solutions in one place</h2>
-            <p>
-              The landing page also introduces solution types for different business
-              needs so the experience feels broader and more complete.
-            </p>
-          </div>
-
-          <div class="row g-4">
-            <% safeSolutionCards.forEach((solution, index) => { %>
-              <div class="col-lg-4 col-md-6" data-reveal="up">
-                <article class="content-card project-card solution-landing-card h-100">
-                  <div class="project-card-top">
-                    <span class="project-card-index"><%= `0${index + 1}`.slice(-2) %></span>
-                    <span class="project-card-category"><%= solution.category %></span>
-                  </div>
-                  <h3 class="h4"><%= solution.title %></h3>
-                  <p><%= solution.summary %></p>
-                  <div class="project-card-footer">
-                    <small>Outcome</small>
-                    <p class="mb-0"><%= solution.outcome %></p>
-                  </div>
-                </article>
-              </div>
-            <% }) %>
-          </div>
-        </div>
-      </section>
-
       <section class="content-section" id="features">
         <div class="container">
           <% const safeFeatureCards = typeof featureCards !== "undefined" ? featureCards : []; %>
@@ -167,7 +135,7 @@
             <h2>What this website delivers</h2>
             <p>
               The feature overview is placed lower in the landing flow so users first
-              see the work, services, and solutions before the detailed highlight cards.
+              see the work and services before the detailed highlight cards.
             </p>
           </div>
 
@@ -195,7 +163,6 @@
           <a href="#top">Home</a>
           <a href="#work">Work</a>
           <a href="#services">Services</a>
-          <a href="#solutions">Solutions</a>
           <a href="#features">Features</a>
           <a href="/contact">Contact</a>
         </div>

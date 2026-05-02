@@ -205,8 +205,7 @@ function buildHomePageModel() {
     ...buildSharedPageModel("home", "Task 3 - Modern Multi-Page Website"),
     featureCards: homeFeatureCards,
     processSteps,
-    serviceCards,
-    solutionCards
+    serviceCards
   };
 }
 
