@@ -11,11 +11,24 @@ function App() {
   const [draft, setDraft] = useState(emptyProject);
   const [editingId, setEditingId] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [activeView, setActiveView] = useState("projects");
+  const [searchTerm, setSearchTerm] = useState("");
   const [message, setMessage] = useState("");
 
+  const visibleProjects = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+
+    return projects
+      .map((project) => ({ ...project, status: project.status || "In Progress" }))
+      .filter((project) => {
+        if (!term) return true;
+        return `${project.title} ${project.description} ${project.status}`.toLowerCase().includes(term);
+      });
+  }, [projects, searchTerm]);
+
   const grouped = useMemo(
-    () => statuses.map((status) => ({ status, projects: projects.filter((project) => project.status === status) })),
-    [projects]
+    () => statuses.map((status) => ({ status, projects: visibleProjects.filter((project) => project.status === status) })),
+    [visibleProjects]
   );
 
   useEffect(() => {
@@ -25,7 +38,7 @@ function App() {
   async function loadProjects() {
     try {
       const response = await axios.get(API_URL);
-      setProjects(response.data.data || []);
+      setProjects((response.data.data || []).map((project) => ({ ...project, status: project.status || "In Progress" })));
       setMessage("");
     } catch (error) {
       setMessage("Connect MongoDB and start the API to load projects.");
@@ -96,19 +109,30 @@ function App() {
         </div>
 
         <nav className="sidebar-nav" aria-label="Workspace navigation">
-          <a className="active" href="#projects"><LayoutGrid size={16} /> Projects</a>
-          <a href="#inbox"><Inbox size={16} /> Inbox</a>
-          <a href="#settings"><Settings size={16} /> Settings</a>
+          <button type="button" aria-label="Projects" className={activeView === "projects" ? "active" : ""} onClick={() => setActiveView("projects")}>
+            <LayoutGrid size={16} /> Projects
+          </button>
+          <button type="button" aria-label="Inbox" className={activeView === "inbox" ? "active" : ""} onClick={() => setActiveView("inbox")}>
+            <Inbox size={16} /> Inbox
+          </button>
+          <button type="button" aria-label="Settings" className={activeView === "settings" ? "active" : ""} onClick={() => setActiveView("settings")}>
+            <Settings size={16} /> Settings
+          </button>
         </nav>
       </aside>
 
       <section className="main-panel">
         <header className="topbar">
-          <div className="command-bar">
+          <label className="command-bar">
             <Search size={15} />
-            <span>Search workspace</span>
+            <input
+              aria-label="Search workspace"
+              placeholder="Search workspace"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+            />
             <kbd>⌘K</kbd>
-          </div>
+          </label>
 
           <button type="button" className="add-project-button" onClick={() => setIsAdding((current) => !current)}>
             <Plus size={15} /> Add Project
@@ -117,10 +141,10 @@ function App() {
 
         <section className="page-heading">
           <div>
-            <span className="eyebrow">PROJECTS</span>
-            <h1>Product workspace</h1>
+            <span className="eyebrow">{activeView.toUpperCase()}</span>
+            <h1>{activeView === "projects" ? "Product workspace" : activeView === "inbox" ? "Inbox" : "Settings"}</h1>
           </div>
-          <p>{projects.length} projects</p>
+          <p>{visibleProjects.length} shown</p>
         </section>
 
         {message && <div className="toast">{message}</div>}
@@ -150,68 +174,85 @@ function App() {
           </form>
         )}
 
-        <section className="project-board" id="projects">
-          {grouped.map((group) => (
-            <div className="status-column" key={group.status}>
-              <div className="column-header">
-                <span className={`status-dot ${group.status.toLowerCase().replaceAll(" ", "-")}`} />
-                <span>{group.status.toUpperCase()}</span>
-                <small>{group.projects.length}</small>
+        {activeView === "projects" && (
+          <section className="project-board" id="projects">
+            {grouped.map((group) => (
+              <div className="status-column" key={group.status}>
+                <div className="column-header">
+                  <span className={`status-dot ${group.status.toLowerCase().replaceAll(" ", "-")}`} />
+                  <span>{group.status.toUpperCase()}</span>
+                  <small>{group.projects.length}</small>
+                </div>
+
+                <div className="project-list">
+                  {group.projects.map((project) => (
+                    <article className="project-row" key={project._id}>
+                      <button
+                        type="button"
+                        className="status-icon"
+                        onClick={() => updateProject(project, { status: project.status === "Done" ? "In Progress" : "Done" })}
+                        aria-label="Toggle status"
+                      >
+                        {project.status === "Done" ? <CheckCircle2 size={17} /> : <CircleDot size={17} />}
+                      </button>
+
+                      <div className="editable-fields">
+                        <input
+                          value={project.title}
+                          onFocus={() => setEditingId(project._id)}
+                          onBlur={(event) => {
+                            setEditingId(null);
+                            persistProject({ ...project, title: event.target.value });
+                          }}
+                          onChange={(event) => updateProjectLocally(project._id, { title: event.target.value })}
+                        />
+                        <textarea
+                          rows="2"
+                          value={project.description}
+                          onFocus={() => setEditingId(project._id)}
+                          onBlur={(event) => {
+                            setEditingId(null);
+                            persistProject({ ...project, description: event.target.value });
+                          }}
+                          onChange={(event) => updateProjectLocally(project._id, { description: event.target.value })}
+                        />
+                      </div>
+
+                      <select
+                        value={project.status}
+                        onChange={(event) => updateProject(project, { status: event.target.value })}
+                        aria-label="Project status"
+                      >
+                        {statuses.map((status) => <option key={status}>{status}</option>)}
+                      </select>
+
+                      <button type="button" className={editingId === project._id ? "row-action visible" : "row-action"} onClick={() => deleteProject(project._id)}>
+                        Delete
+                      </button>
+                    </article>
+                  ))}
+
+                  {group.projects.length === 0 && <div className="empty-state">No projects</div>}
+                </div>
               </div>
+            ))}
+          </section>
+        )}
 
-              <div className="project-list">
-                {group.projects.map((project) => (
-                  <article className="project-row" key={project._id}>
-                    <button
-                      type="button"
-                      className="status-icon"
-                      onClick={() => updateProject(project, { status: project.status === "Done" ? "In Progress" : "Done" })}
-                      aria-label="Toggle status"
-                    >
-                      {project.status === "Done" ? <CheckCircle2 size={17} /> : <CircleDot size={17} />}
-                    </button>
+        {activeView === "inbox" && (
+          <section className="simple-panel">
+            <h2>Inbox</h2>
+            <p>{projects.filter((project) => (project.status || "In Progress") !== "Done").length} active project updates need attention.</p>
+          </section>
+        )}
 
-                    <div className="editable-fields">
-                      <input
-                        value={project.title}
-                        onFocus={() => setEditingId(project._id)}
-                        onBlur={(event) => {
-                          setEditingId(null);
-                          persistProject({ ...project, title: event.target.value });
-                        }}
-                        onChange={(event) => updateProjectLocally(project._id, { title: event.target.value })}
-                      />
-                      <textarea
-                        rows="2"
-                        value={project.description}
-                        onFocus={() => setEditingId(project._id)}
-                        onBlur={(event) => {
-                          setEditingId(null);
-                          persistProject({ ...project, description: event.target.value });
-                        }}
-                        onChange={(event) => updateProjectLocally(project._id, { description: event.target.value })}
-                      />
-                    </div>
-
-                    <select
-                      value={project.status}
-                      onChange={(event) => updateProject(project, { status: event.target.value })}
-                      aria-label="Project status"
-                    >
-                      {statuses.map((status) => <option key={status}>{status}</option>)}
-                    </select>
-
-                    <button type="button" className={editingId === project._id ? "row-action visible" : "row-action"} onClick={() => deleteProject(project._id)}>
-                      Delete
-                    </button>
-                  </article>
-                ))}
-
-                {group.projects.length === 0 && <div className="empty-state">No projects</div>}
-              </div>
-            </div>
-          ))}
-        </section>
+        {activeView === "settings" && (
+          <section className="simple-panel">
+            <h2>Settings</h2>
+            <p>Workspace API: {API_URL}</p>
+            <p>Default status: In Progress</p>
+          </section>
+        )}
       </section>
     </main>
   );

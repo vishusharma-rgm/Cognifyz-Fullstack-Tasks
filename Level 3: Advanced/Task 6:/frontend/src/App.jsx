@@ -90,7 +90,8 @@ function App() {
         setIsTransitioning(false);
       }, 260);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid credentials");
+      const fallback = authMode === "login" ? "Invalid credentials" : "Unable to create account";
+      toast.error(error.response?.data?.message || fallback);
     }
   }
 
@@ -161,6 +162,23 @@ function App() {
           <h1>Workspace</h1>
           <p>Sign in to continue to your protected project environment.</p>
 
+          <div className="auth-tabs" role="tablist" aria-label="Authentication mode">
+            <button
+              type="button"
+              className={authMode === "login" ? "active" : ""}
+              onClick={() => setAuthMode("login")}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              className={authMode === "register" ? "active" : ""}
+              onClick={() => setAuthMode("register")}
+            >
+              Create Account
+            </button>
+          </div>
+
           <form className="auth-form" onSubmit={submitAuth}>
             {authMode === "register" && (
               <label>
@@ -185,13 +203,9 @@ function App() {
             <button type="submit">{authMode === "login" ? "Sign In" : "Create Account"}</button>
           </form>
 
-          <button
-            type="button"
-            className="switch-auth"
-            onClick={() => setAuthMode(authMode === "login" ? "register" : "login")}
-          >
-            {authMode === "login" ? "Need access? Create an account" : "Already have access? Sign in"}
-          </button>
+          <p className="auth-note">
+            {authMode === "login" ? "Use an existing account." : "New accounts are stored securely with bcrypt hashing."}
+          </p>
         </section>
       </main>
     );

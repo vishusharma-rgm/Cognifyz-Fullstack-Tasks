@@ -66,20 +66,22 @@ button {
   gap: 4px;
 }
 
-.sidebar-nav a {
+.sidebar-nav button {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 9px;
   color: #ffffff;
-  text-decoration: none;
+  border: 0;
   border-radius: 6px;
   padding: 9px 10px;
+  background: transparent;
   font-size: 0.84rem;
   opacity: 0.62;
 }
 
-.sidebar-nav a.active,
-.sidebar-nav a:hover {
+.sidebar-nav button.active,
+.sidebar-nav button:hover {
   background: #111111;
   opacity: 1;
 }
@@ -108,6 +110,15 @@ button {
   padding: 0 11px;
   color: var(--muted);
   font-size: 0.84rem;
+}
+
+.command-bar input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--black);
 }
 
 kbd {
@@ -334,6 +345,24 @@ kbd {
   padding: 18px;
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+.simple-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--white);
+  padding: 18px;
+}
+
+.simple-panel h2 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.simple-panel p {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.84rem;
 }
 
 @media (max-width: 1000px) {
