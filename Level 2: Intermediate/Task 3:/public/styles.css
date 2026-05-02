@@ -3805,3 +3805,67 @@ body {
     0 6px 16px rgba(23, 92, 211, 0.08) !important;
   transform: none !important;
 }
+
+.landing-services-section,
+.landing-solutions-section {
+  padding-top: 120px !important;
+  padding-bottom: 120px !important;
+}
+
+.landing-services-section .section-heading,
+.landing-solutions-section .section-heading {
+  max-width: 920px;
+  margin-bottom: 72px;
+}
+
+.landing-services-section .section-heading h2,
+.landing-solutions-section .section-heading h2 {
+  font-size: clamp(2.35rem, 4vw, 3.35rem);
+}
+
+.landing-services-section .section-heading p,
+.landing-solutions-section .section-heading p {
+  font-size: 1.08rem;
+}
+
+.service-landing-card {
+  min-height: 290px;
+  padding: 38px !important;
+}
+
+.service-landing-card .service-item-header {
+  gap: 18px;
+}
+
+.service-landing-card .service-item-header h3 {
+  font-size: 1.85rem;
+}
+
+.service-landing-card .service-item-header p {
+  font-size: 1.08rem;
+  line-height: 1.9;
+}
+
+.solution-landing-card {
+  min-height: 380px;
+  padding: 38px !important;
+}
+
+.solution-landing-card h3 {
+  font-size: 1.9rem;
+  margin-bottom: 18px;
+}
+
+.solution-landing-card p {
+  font-size: 1.08rem;
+  line-height: 1.9;
+}
+
+.solution-landing-card .project-card-top {
+  margin-bottom: 24px;
+}
+
+.solution-landing-card .project-card-footer {
+  margin-top: 24px;
+  padding-top: 24px;
+}

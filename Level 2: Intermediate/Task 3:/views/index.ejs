@@ -35,11 +35,11 @@
           </button>
           <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav nav-center">
-              <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="/features">Features</a></li>
-              <li class="nav-item"><a class="nav-link" href="/process">Work</a></li>
-              <li class="nav-item"><a class="nav-link" href="/services">Services</a></li>
-              <li class="nav-item"><a class="nav-link" href="/solutions">Solutions</a></li>
+              <li class="nav-item"><a class="nav-link active" href="#top">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+              <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+              <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
+              <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
               <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             </ul>
           </div>
@@ -47,7 +47,7 @@
       </nav>
     </header>
 
-    <main>
+    <main id="top">
       <section class="hero-section">
         <div class="container">
           <div class="row justify-content-center">
@@ -59,10 +59,127 @@
                 professional, and easy to use on every device.
               </p>
               <div class="hero-actions justify-content-center">
-                <a href="/features" class="btn btn-primary">View Features</a>
+                <a href="#work" class="btn btn-primary">View Work</a>
                 <a href="/contact" class="btn btn-outline-primary">Start a Project</a>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section process-preview" id="work">
+        <div class="container">
+          <% const safeProcessSteps = typeof processSteps !== "undefined" ? processSteps : []; %>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Work</p>
+            <h2>How the frontend work moves forward</h2>
+            <p>
+              The landing page now includes the main work process so the user can
+              understand the delivery flow without leaving the first page.
+            </p>
+          </div>
+
+          <div class="timeline-wrapper" data-reveal="up">
+            <div class="timeline-line"></div>
+            <div class="timeline-line-fill"></div>
+
+            <% safeProcessSteps.forEach((step, index) => { const isLeft = index % 2 === 0; %>
+              <div class="timeline-item <%= isLeft ? 'timeline-left' : 'timeline-right' %>">
+                <div class="timeline-dot"><%= step.step %></div>
+                <article class="timeline-card" data-reveal="up">
+                  <h3 class="h5 mb-2"><%= step.title %></h3>
+                  <p class="mb-0"><%= step.description %></p>
+                </article>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section landing-services-section" id="services">
+        <div class="container">
+          <% const safeServiceCards = typeof serviceCards !== "undefined" ? serviceCards : []; %>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Services</p>
+            <h2>Frontend services in the same landing page</h2>
+            <p>
+              Service blocks are now part of the landing page itself, making the page
+              longer and more complete without forcing separate navigation first.
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <% safeServiceCards.forEach((service, index) => { %>
+              <div class="col-md-6 col-xl-4" data-reveal="up">
+                <article class="content-card service-landing-card h-100">
+                  <div class="service-item-header">
+                    <span class="service-icon-badge"><%= `0${index + 1}`.slice(-2) %></span>
+                    <div>
+                      <h3 class="h4 mb-2"><%= service.title %></h3>
+                      <p class="mb-0"><%= service.description %></p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section landing-solutions-section" id="solutions">
+        <div class="container">
+          <% const safeSolutionCards = typeof solutionCards !== "undefined" ? solutionCards : []; %>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Solutions</p>
+            <h2>Business website solutions in one place</h2>
+            <p>
+              The landing page also introduces solution types for different business
+              needs so the experience feels broader and more complete.
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <% safeSolutionCards.forEach((solution, index) => { %>
+              <div class="col-lg-4 col-md-6" data-reveal="up">
+                <article class="content-card project-card solution-landing-card h-100">
+                  <div class="project-card-top">
+                    <span class="project-card-index"><%= `0${index + 1}`.slice(-2) %></span>
+                    <span class="project-card-category"><%= solution.category %></span>
+                  </div>
+                  <h3 class="h4"><%= solution.title %></h3>
+                  <p><%= solution.summary %></p>
+                  <div class="project-card-footer">
+                    <small>Outcome</small>
+                    <p class="mb-0"><%= solution.outcome %></p>
+                  </div>
+                </article>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="features">
+        <div class="container">
+          <% const safeFeatureCards = typeof featureCards !== "undefined" ? featureCards : []; %>
+          <div class="section-heading text-center" data-reveal="up">
+            <p class="section-tag">Features</p>
+            <h2>What this website delivers</h2>
+            <p>
+              The feature overview is placed lower in the landing flow so users first
+              see the work, services, and solutions before the detailed highlight cards.
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <% safeFeatureCards.forEach((card) => { %>
+              <div class="col-md-6 col-lg-4" data-reveal="up">
+                <article class="content-card h-100">
+                  <h3 class="h5"><%= card.title %></h3>
+                  <p class="mb-0"><%= card.description %></p>
+                </article>
+              </div>
+            <% }) %>
           </div>
         </div>
       </section>
@@ -75,11 +192,11 @@
           <p class="mb-0">Frontend design and development for structured web projects.</p>
         </div>
         <div class="footer-links">
-          <a href="/">Home</a>
-          <a href="/features">Features</a>
-          <a href="/process">Work</a>
-          <a href="/services">Services</a>
-          <a href="/solutions">Solutions</a>
+          <a href="#top">Home</a>
+          <a href="#work">Work</a>
+          <a href="#services">Services</a>
+          <a href="#solutions">Solutions</a>
+          <a href="#features">Features</a>
           <a href="/contact">Contact</a>
         </div>
       </div>

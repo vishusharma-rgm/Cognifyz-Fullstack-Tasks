@@ -202,7 +202,11 @@ function buildSharedPageModel(activePage, pageTitle) {
 
 function buildHomePageModel() {
   return {
-    ...buildSharedPageModel("home", "Task 3 - Modern Multi-Page Website")
+    ...buildSharedPageModel("home", "Task 3 - Modern Multi-Page Website"),
+    featureCards: homeFeatureCards,
+    processSteps,
+    serviceCards,
+    solutionCards
   };
 }
 

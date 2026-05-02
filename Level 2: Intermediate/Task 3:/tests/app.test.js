@@ -16,20 +16,25 @@ function renderView(view, data) {
   });
 }
 
-test("home page model returns the shared landing model", () => {
+test("home page model includes the landing page sections", () => {
   const model = app.buildHomePageModel();
 
-  assert.equal(model.activePage, "home");
-  assert.equal(model.pageTitle, "Task 3 - Modern Multi-Page Website");
+  assert.equal(model.featureCards.length, 3);
+  assert.equal(model.processSteps.length, 4);
+  assert.equal(model.serviceCards.length, 6);
+  assert.equal(model.solutionCards.length, 3);
 });
 
-test("home page renders the landing hero only", async () => {
+test("home page renders the full long landing page", async () => {
   const html = await renderView("index", app.buildHomePageModel());
 
   assert.match(html, /Frontend design and development for modern business websites/);
-  assert.match(html, /View Features/);
-  assert.doesNotMatch(html, /timeline-wrapper/);
-  assert.doesNotMatch(html, /Recent frontend project directions/);
+  assert.match(html, /View Work/);
+  assert.match(html, /How the frontend work moves forward/);
+  assert.match(html, /Frontend services in the same landing page/);
+  assert.match(html, /Business website solutions in one place/);
+  assert.match(html, /What this website delivers/);
+  assert.doesNotMatch(html, /Ready to discuss your website/);
 });
 
 test("about page renders company information and long-form sections", async () => {
