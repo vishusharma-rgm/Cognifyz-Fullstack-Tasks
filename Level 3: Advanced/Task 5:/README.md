@@ -1,13 +1,13 @@
-# Task 5: API Integration and Front-End Interaction
+# ProjectFlow Dashboard
 
-This task contains a minimal full-stack CRUD app.
+Professional project management dashboard with a structured Express REST API and a React sidebar interface.
 
 ## Structure
 
-- `backend`: Node.js/Express REST API with in-memory task storage.
-- `frontend`: React app that uses `fetch`, `useEffect`, create, edit, and delete actions.
+- `backend`: Express API using controller-route-model organization.
+- `frontend`: React dashboard using Axios for project CRUD interactions.
 
-## Run Backend
+## Backend
 
 ```bash
 cd backend
@@ -15,9 +15,16 @@ npm install
 npm run dev
 ```
 
-Backend URL: `http://localhost:5100`
+API URL: `http://localhost:5100`
 
-## Run Frontend
+Endpoints:
+
+- `GET /api/projects`
+- `POST /api/projects`
+- `PUT /api/projects/:id`
+- `DELETE /api/projects/:id`
+
+## Frontend
 
 ```bash
 cd frontend
@@ -26,11 +33,3 @@ npm run dev
 ```
 
 Frontend URL: `http://localhost:5173`
-
-## API Endpoints
-
-- `GET /api/tasks`
-- `GET /api/tasks/:id`
-- `POST /api/tasks`
-- `PUT /api/tasks/:id`
-- `DELETE /api/tasks/:id`
