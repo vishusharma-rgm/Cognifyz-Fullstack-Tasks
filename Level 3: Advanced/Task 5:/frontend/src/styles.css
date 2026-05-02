@@ -371,7 +371,11 @@ kbd {
   }
 
   .sidebar {
-    display: none;
+    display: block;
+  }
+
+  .sidebar-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .topbar,
