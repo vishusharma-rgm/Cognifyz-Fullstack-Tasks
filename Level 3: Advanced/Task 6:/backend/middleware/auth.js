@@ -11,6 +11,7 @@ async function protect(req, res, next) {
   const token = authHeader.split(" ")[1];
 
   try {
+    // Every protected mutation must provide a valid JWT in the Authorization header.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id).select("-password");
 

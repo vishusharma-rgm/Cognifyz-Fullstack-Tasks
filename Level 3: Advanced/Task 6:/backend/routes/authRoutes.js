@@ -6,6 +6,10 @@ const User = require("../models/User");
 const router = express.Router();
 
 function createToken(userId) {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is required");
+  }
+
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "1d" });
 }
 
@@ -21,14 +25,16 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ success: false, message: "Password must be at least 6 characters" });
     }
 
-    const existingUser = await User.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingUser = await User.findOne({ email: normalizedEmail });
 
     if (existingUser) {
       return res.status(409).json({ success: false, message: "Email is already registered" });
     }
 
+    // Store only the bcrypt hash; the plain password is never saved.
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashedPassword });
+    const user = await User.create({ name: name.trim(), email: normalizedEmail, password: hashedPassword });
     const token = createToken(user._id);
 
     res.status(201).json({
@@ -49,7 +55,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ success: false, message: "Email and password are required" });
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.trim().toLowerCase() });
 
     if (!user) {
       return res.status(401).json({ success: false, message: "Invalid email or password" });

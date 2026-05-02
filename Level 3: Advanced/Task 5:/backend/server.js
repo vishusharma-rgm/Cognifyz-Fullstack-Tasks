@@ -33,7 +33,8 @@ app.get("/api/tasks/:id", (req, res) => {
 });
 
 app.post("/api/tasks", (req, res) => {
-  const { title, description } = req.body;
+  const title = req.body.title?.trim();
+  const description = req.body.description?.trim();
 
   if (!title || !description) {
     return res.status(400).json({
@@ -53,7 +54,8 @@ app.post("/api/tasks", (req, res) => {
 });
 
 app.put("/api/tasks/:id", (req, res) => {
-  const { title, description } = req.body;
+  const title = req.body.title?.trim();
+  const description = req.body.description?.trim();
   const taskIndex = tasks.findIndex((item) => item.id === Number(req.params.id));
 
   if (taskIndex === -1) {
@@ -85,6 +87,10 @@ app.delete("/api/tasks/:id", (req, res) => {
 
   const deletedTask = tasks.splice(taskIndex, 1)[0];
   res.status(200).json({ success: true, data: deletedTask });
+});
+
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
 app.listen(PORT, () => {

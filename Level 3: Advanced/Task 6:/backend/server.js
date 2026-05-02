@@ -9,8 +9,6 @@ const dataRoutes = require("./routes/dataRoutes");
 const app = express();
 const PORT = process.env.PORT || 6000;
 
-connectDB();
-
 app.use(cors());
 app.use(express.json());
 
@@ -25,6 +23,12 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
 });
 
-app.listen(PORT, () => {
-  console.log(`Task 6 API running on http://localhost:${PORT}`);
-});
+async function startServer() {
+  await connectDB();
+
+  app.listen(PORT, () => {
+    console.log(`Task 6 API running on http://localhost:${PORT}`);
+  });
+}
+
+startServer();

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const API_URL = "http://localhost:6000/api";
 const emptyAuthForm = { name: "", email: "", password: "" };

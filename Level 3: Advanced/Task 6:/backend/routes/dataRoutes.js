@@ -29,7 +29,8 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", protect, async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const title = req.body.title?.trim();
+    const description = req.body.description?.trim();
 
     if (!title || !description) {
       return res.status(400).json({ success: false, message: "Title and description are required" });
@@ -49,12 +50,14 @@ router.post("/", protect, async (req, res) => {
 
 router.put("/:id", protect, async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const title = req.body.title?.trim();
+    const description = req.body.description?.trim();
 
     if (!title || !description) {
       return res.status(400).json({ success: false, message: "Title and description are required" });
     }
 
+    // The owner filter prevents users from changing entries they did not create.
     const entry = await Data.findOneAndUpdate(
       { _id: req.params.id, owner: req.user._id },
       { title, description },
@@ -73,6 +76,7 @@ router.put("/:id", protect, async (req, res) => {
 
 router.delete("/:id", protect, async (req, res) => {
   try {
+    // Delete is also owner-scoped, so a valid token alone is not enough.
     const entry = await Data.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
 
     if (!entry) {
