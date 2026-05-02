@@ -1,205 +1,180 @@
 import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import { CheckCircle2, CircleDot, Inbox, LayoutGrid, Plus, Search, Settings, Sparkles } from "lucide-react";
 
 const API_URL = "http://localhost:5100/api/projects";
-const emptyProject = { title: "", description: "" };
-const nodePositions = [
-  { left: "14%", top: "29%" },
-  { left: "45%", top: "18%" },
-  { left: "70%", top: "37%" },
-  { left: "28%", top: "64%" },
-  { left: "61%", top: "70%" },
-  { left: "82%", top: "58%" }
-];
+const emptyProject = { title: "", description: "", status: "In Progress" };
+const statuses = ["Backlog", "In Progress", "Done"];
 
 function App() {
   const [projects, setProjects] = useState([]);
   const [draft, setDraft] = useState(emptyProject);
   const [editingId, setEditingId] = useState(null);
-  const [overlayOpen, setOverlayOpen] = useState(false);
-  const [dockActive, setDockActive] = useState(false);
-  const [notice, setNotice] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
 
-  const constellationLines = useMemo(() => projects.slice(0, 6), [projects]);
+  const grouped = useMemo(
+    () => statuses.map((status) => ({ status, projects: projects.filter((project) => project.status === status) })),
+    [projects]
+  );
 
   useEffect(() => {
     loadProjects();
   }, []);
 
-  function revealDock(event) {
-    const nearBottom = window.innerHeight - event.clientY < 170;
-    const nearLeft = event.clientX < 130;
-    setDockActive(nearBottom || nearLeft);
-  }
-
   async function loadProjects() {
-    setLoading(true);
     try {
       const response = await axios.get(API_URL);
       setProjects(response.data.data || []);
-      setNotice("");
+      setMessage("");
     } catch (error) {
-      setNotice("Project stream unavailable. Start the API to reconnect the canvas.");
-    } finally {
-      setLoading(false);
+      setMessage("Connect MongoDB and start the API to load projects.");
     }
   }
 
-  function openCreateOverlay() {
-    setEditingId(null);
-    setDraft(emptyProject);
-    setOverlayOpen(true);
-    setNotice("");
-  }
-
-  function openEditOverlay(project) {
-    setEditingId(project.id);
-    setDraft({ title: project.title, description: project.description });
-    setOverlayOpen(true);
-    setNotice("");
-  }
-
-  function closeOverlay() {
-    setOverlayOpen(false);
-    setEditingId(null);
-    setDraft(emptyProject);
-  }
-
-  async function saveProject(event) {
+  async function createProject(event) {
     event.preventDefault();
 
     try {
-      if (editingId) {
-        await axios.put(`${API_URL}/${editingId}`, draft);
-        setNotice("Node refined.");
-      } else {
-        await axios.post(API_URL, draft);
-        setNotice("New signal added to the canvas.");
-      }
-
-      closeOverlay();
+      await axios.post(API_URL, draft);
+      setDraft(emptyProject);
       loadProjects();
     } catch (error) {
-      setNotice(error.response?.data?.message || "The canvas rejected incomplete data.");
+      setMessage(error.response?.data?.message || "Unable to add project.");
+    }
+  }
+
+  async function updateProject(project, updates) {
+    const nextProject = { ...project, ...updates };
+    setProjects((current) => current.map((item) => (item._id === project._id ? nextProject : item)));
+
+    try {
+      await axios.put(`${API_URL}/${project._id}`, {
+        title: nextProject.title,
+        description: nextProject.description,
+        status: nextProject.status
+      });
+    } catch (error) {
+      setMessage(error.response?.data?.message || "Unable to save project.");
+      loadProjects();
     }
   }
 
   async function deleteProject(projectId) {
     try {
       await axios.delete(`${API_URL}/${projectId}`);
-      setNotice("Node dissolved.");
       loadProjects();
     } catch (error) {
-      setNotice(error.response?.data?.message || "Unable to dissolve this node.");
+      setMessage(error.response?.data?.message || "Unable to delete project.");
     }
   }
 
   return (
-    <main className="workspace-canvas" onMouseMove={revealDock}>
-      <div className="ambient ambient-one" />
-      <div className="ambient ambient-two" />
-      <div className="grain" />
-
-      <header className="canvas-header">
-        <button type="button" className="wordmark" onClick={() => setDockActive(true)}>
-          ProjectFlow
-        </button>
-        <div className="canvas-meta">
-          <span>{loading ? "Syncing" : "Live workspace"}</span>
-          <strong>{projects.length.toString().padStart(2, "0")}</strong>
+    <main className="workspace-shell">
+      <aside className="sidebar">
+        <div className="brand">
+          <div className="brand-icon"><Sparkles size={15} /></div>
+          <span>Workspace</span>
         </div>
-      </header>
 
-      <section className="hero-copy" aria-label="Workspace summary">
-        <span>Flexible canvas</span>
-        <h1>Shape work as signals, not boxes.</h1>
-      </section>
+        <nav className="sidebar-nav" aria-label="Workspace navigation">
+          <a className="active" href="#projects"><LayoutGrid size={16} /> Projects</a>
+          <a href="#inbox"><Inbox size={16} /> Inbox</a>
+          <a href="#settings"><Settings size={16} /> Settings</a>
+        </nav>
+      </aside>
 
-      <section className="node-field" aria-label="Project canvas">
-        <svg className="connection-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          {constellationLines.slice(0, -1).map((project, index) => {
-            const current = nodePositions[index % nodePositions.length];
-            const next = nodePositions[(index + 1) % nodePositions.length];
-            return (
-              <line
-                key={project.id}
-                x1={parseFloat(current.left)}
-                y1={parseFloat(current.top)}
-                x2={parseFloat(next.left)}
-                y2={parseFloat(next.top)}
-              />
-            );
-          })}
-        </svg>
+      <section className="main-panel">
+        <header className="topbar">
+          <div className="command-bar">
+            <Search size={15} />
+            <span>Search workspace</span>
+            <kbd>⌘K</kbd>
+          </div>
 
-        {projects.map((project, index) => {
-          const position = nodePositions[index % nodePositions.length];
-          return (
-            <article
-              className="project-node"
-              key={project.id}
-              style={{ left: position.left, top: position.top, animationDelay: `${index * 90}ms` }}
-            >
-              <div className="node-pulse" />
-              <div className="node-content">
-                <span>Signal {String(index + 1).padStart(2, "0")}</span>
-                <h2>{project.title}</h2>
-                <p>{project.description}</p>
-                <div className="node-actions">
-                  <button type="button" onClick={() => openEditOverlay(project)}>Refine</button>
-                  <button type="button" onClick={() => deleteProject(project.id)}>Dissolve</button>
-                </div>
-              </div>
-            </article>
-          );
-        })}
-
-        {!loading && projects.length === 0 && (
-          <button type="button" className="empty-orbit" onClick={openCreateOverlay}>
-            Add the first signal
-          </button>
-        )}
-      </section>
-
-      {notice && <aside className="soft-notice">{notice}</aside>}
-
-      <nav className={`edge-dock ${dockActive ? "active" : ""}`} aria-label="Canvas controls">
-        <button type="button" onClick={openCreateOverlay} aria-label="New project">+</button>
-        <button type="button" onClick={loadProjects} aria-label="Refresh canvas">sync</button>
-        <button type="button" onClick={() => setDockActive(false)} aria-label="Hide controls">min</button>
-      </nav>
-
-      {overlayOpen && (
-        <section className="ingestion-overlay" aria-labelledby="ingestion-title">
-          <div className="overlay-orbit" />
-          <form className="ingestion-panel" onSubmit={saveProject}>
-            <span>{editingId ? "Refine signal" : "New signal"}</span>
-            <label id="ingestion-title">
-              <small>Project title</small>
-              <textarea
-                rows="1"
-                value={draft.title}
-                onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))}
-                placeholder="Give the work a name"
-              />
-            </label>
-            <label>
-              <small>Project brief</small>
-              <textarea
-                rows="4"
-                value={draft.description}
-                onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
-                placeholder="Describe what this signal is moving toward"
-              />
-            </label>
-            <div className="overlay-actions">
-              <button type="button" onClick={closeOverlay}>Release</button>
-              <button type="submit">{editingId ? "Save motion" : "Add to canvas"}</button>
-            </div>
+          <form className="quick-add" onSubmit={createProject}>
+            <input
+              aria-label="Project title"
+              placeholder="Project title"
+              value={draft.title}
+              onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))}
+            />
+            <input
+              aria-label="Project description"
+              placeholder="Description"
+              value={draft.description}
+              onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
+            />
+            <button type="submit"><Plus size={15} /> Add Project</button>
           </form>
+        </header>
+
+        <section className="page-heading">
+          <div>
+            <span className="eyebrow">PROJECTS</span>
+            <h1>Product workspace</h1>
+          </div>
+          <p>{projects.length} projects</p>
         </section>
-      )}
+
+        {message && <div className="toast">{message}</div>}
+
+        <section className="project-board" id="projects">
+          {grouped.map((group) => (
+            <div className="status-column" key={group.status}>
+              <div className="column-header">
+                <span className={`status-dot ${group.status.toLowerCase().replaceAll(" ", "-")}`} />
+                <span>{group.status.toUpperCase()}</span>
+                <small>{group.projects.length}</small>
+              </div>
+
+              <div className="project-list">
+                {group.projects.map((project) => (
+                  <article className="project-row" key={project._id}>
+                    <button
+                      type="button"
+                      className="status-icon"
+                      onClick={() => updateProject(project, { status: project.status === "Done" ? "In Progress" : "Done" })}
+                      aria-label="Toggle status"
+                    >
+                      {project.status === "Done" ? <CheckCircle2 size={17} /> : <CircleDot size={17} />}
+                    </button>
+
+                    <div className="editable-fields">
+                      <input
+                        value={project.title}
+                        onFocus={() => setEditingId(project._id)}
+                        onBlur={() => setEditingId(null)}
+                        onChange={(event) => updateProject(project, { title: event.target.value })}
+                      />
+                      <textarea
+                        rows="2"
+                        value={project.description}
+                        onFocus={() => setEditingId(project._id)}
+                        onBlur={() => setEditingId(null)}
+                        onChange={(event) => updateProject(project, { description: event.target.value })}
+                      />
+                    </div>
+
+                    <select
+                      value={project.status}
+                      onChange={(event) => updateProject(project, { status: event.target.value })}
+                      aria-label="Project status"
+                    >
+                      {statuses.map((status) => <option key={status}>{status}</option>)}
+                    </select>
+
+                    <button type="button" className={editingId === project._id ? "row-action visible" : "row-action"} onClick={() => deleteProject(project._id)}>
+                      Delete
+                    </button>
+                  </article>
+                ))}
+
+                {group.projects.length === 0 && <div className="empty-state">No projects</div>}
+              </div>
+            </div>
+          ))}
+        </section>
+      </section>
     </main>
   );
 }
