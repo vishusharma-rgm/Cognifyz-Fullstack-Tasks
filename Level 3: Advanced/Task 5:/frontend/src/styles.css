@@ -217,6 +217,18 @@ kbd {
   font-size: 0.84rem;
 }
 
+.toast.error {
+  color: var(--black);
+  background: var(--gray);
+}
+
+button:disabled,
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .project-board {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

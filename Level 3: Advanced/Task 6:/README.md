@@ -2,6 +2,12 @@
 
 Enterprise-style secure project workspace with MongoDB persistence, JWT authentication, and owner-scoped project data.
 
+## Required Run Order
+
+1. Start MongoDB on `127.0.0.1:27017`.
+2. Start the backend on port `6000`.
+3. Start the frontend on port `5174`.
+
 ## Structure
 
 - `backend`: Express, MongoDB/Mongoose, bcrypt, JWT, protected project routes, controller/service structure.
@@ -19,6 +25,10 @@ npm run dev
 Update `.env` if your MongoDB connection string is different.
 
 API URL: `http://localhost:6000`
+
+Health check:
+
+- `GET /`
 
 Auth endpoints:
 

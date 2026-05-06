@@ -2,6 +2,12 @@
 
 Professional project management dashboard with a structured Express REST API and a React sidebar interface.
 
+## Required Run Order
+
+1. Start MongoDB on `127.0.0.1:27017`.
+2. Start the backend on port `5100`.
+3. Start the frontend on port `5173`.
+
 ## Structure
 
 - `backend`: Express API using controller-route-model organization.
@@ -16,6 +22,10 @@ npm run dev
 ```
 
 API URL: `http://localhost:5100`
+
+Health check:
+
+- `GET /`
 
 Endpoints:
 
