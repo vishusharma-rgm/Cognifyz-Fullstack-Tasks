@@ -47,7 +47,17 @@ async function register(req, res) {
       user: sanitizeUser(user)
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Unable to create account" });
+    console.error("Register failed:", error.message);
+
+    if (error.code === 11000) {
+      return res.status(409).json({ success: false, message: "Email is already registered" });
+    }
+
+    if (error.message === "JWT_SECRET is required") {
+      return res.status(500).json({ success: false, message: "Server JWT secret is missing" });
+    }
+
+    res.status(500).json({ success: false, message: error.message || "Unable to create account" });
   }
 }
 
@@ -78,7 +88,13 @@ async function login(req, res) {
       user: sanitizeUser(user)
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Unable to sign in" });
+    console.error("Login failed:", error.message);
+
+    if (error.message === "JWT_SECRET is required") {
+      return res.status(500).json({ success: false, message: "Server JWT secret is missing" });
+    }
+
+    res.status(500).json({ success: false, message: error.message || "Unable to sign in" });
   }
 }
 

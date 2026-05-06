@@ -12,10 +12,10 @@ async function protect(req, res, next) {
 
   try {
     if (!process.env.JWT_SECRET) {
-      throw new Error("JWT_SECRET is required");
+      console.error("Auth middleware failed: JWT_SECRET is required");
+      return res.status(500).json({ success: false, message: "Server JWT secret is missing" });
     }
 
-    // Every protected mutation must provide a valid JWT in the Authorization header.
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.id).select("-password");
 
@@ -26,6 +26,7 @@ async function protect(req, res, next) {
     req.user = user;
     next();
   } catch (error) {
+    console.error("Auth middleware failed:", error.message);
     return res.status(401).json({ success: false, message: "Invalid or expired token" });
   }
 }
