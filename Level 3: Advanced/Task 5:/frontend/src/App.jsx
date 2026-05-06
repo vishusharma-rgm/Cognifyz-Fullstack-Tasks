@@ -6,6 +6,12 @@ const API_URL = "http://localhost:5100/api/projects";
 const emptyProject = { title: "", description: "", status: "In Progress" };
 const statuses = ["Backlog", "In Progress", "Done"];
 
+function apiErrorMessage(error, fallback) {
+  if (error.response?.data?.message) return error.response.data.message;
+  if (error.request) return "Start the Workspace API and MongoDB.";
+  return fallback;
+}
+
 function App() {
   const [projects, setProjects] = useState([]);
   const [draft, setDraft] = useState(emptyProject);
@@ -14,6 +20,7 @@ function App() {
   const [activeView, setActiveView] = useState("projects");
   const [searchTerm, setSearchTerm] = useState("");
   const [message, setMessage] = useState("");
+  const [apiReady, setApiReady] = useState(false);
 
   const visibleProjects = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -40,8 +47,10 @@ function App() {
       const response = await axios.get(API_URL);
       setProjects((response.data.data || []).map((project) => ({ ...project, status: project.status || "In Progress" })));
       setMessage("");
+      setApiReady(true);
     } catch (error) {
-      setMessage("Connect MongoDB and start the API to load projects.");
+      setApiReady(false);
+      setMessage(apiErrorMessage(error, "Connect MongoDB and start the API to load projects."));
     }
   }
 
@@ -49,12 +58,15 @@ function App() {
     event.preventDefault();
 
     try {
-      await axios.post(API_URL, draft);
+      const response = await axios.post(API_URL, draft);
+      setProjects((current) => [{ ...response.data.data, status: response.data.data.status || "In Progress" }, ...current]);
       setDraft(emptyProject);
       setIsAdding(false);
-      loadProjects();
+      setMessage("");
+      setApiReady(true);
     } catch (error) {
-      setMessage(error.response?.data?.message || "Unable to add project.");
+      setApiReady(Boolean(error.response));
+      setMessage(apiErrorMessage(error, "Unable to add project."));
     }
   }
 
@@ -69,7 +81,7 @@ function App() {
         status: nextProject.status
       });
     } catch (error) {
-      setMessage(error.response?.data?.message || "Unable to save project.");
+      setMessage(apiErrorMessage(error, "Unable to save project."));
       loadProjects();
     }
   }
@@ -86,7 +98,7 @@ function App() {
         status: project.status
       });
     } catch (error) {
-      setMessage(error.response?.data?.message || "Unable to save project.");
+      setMessage(apiErrorMessage(error, "Unable to save project."));
       loadProjects();
     }
   }
@@ -96,8 +108,14 @@ function App() {
       await axios.delete(`${API_URL}/${projectId}`);
       loadProjects();
     } catch (error) {
-      setMessage(error.response?.data?.message || "Unable to delete project.");
+      setMessage(apiErrorMessage(error, "Unable to delete project."));
     }
+  }
+
+  function openAddProject() {
+    setActiveView("projects");
+    setIsAdding(true);
+    setMessage(apiReady ? "" : "Start the Workspace API and MongoDB.");
   }
 
   return (
@@ -134,7 +152,7 @@ function App() {
             <kbd>⌘K</kbd>
           </label>
 
-          <button type="button" className="add-project-button" onClick={() => setIsAdding((current) => !current)}>
+          <button type="button" className="add-project-button" onClick={openAddProject}>
             <Plus size={15} /> Add Project
           </button>
         </header>
@@ -147,30 +165,33 @@ function App() {
           <p>{visibleProjects.length} shown</p>
         </section>
 
-        {message && <div className="toast">{message}</div>}
+        {message && <div className={`toast ${apiReady ? "" : "error"}`}>{message}</div>}
 
-        {isAdding && (
+        {isAdding && activeView === "projects" && (
           <form className="quick-add" onSubmit={createProject}>
             <input
               aria-label="Project title"
               placeholder="Project title"
+              disabled={!apiReady}
               value={draft.title}
               onChange={(event) => setDraft((current) => ({ ...current, title: event.target.value }))}
             />
             <input
               aria-label="Project description"
               placeholder="Description"
+              disabled={!apiReady}
               value={draft.description}
               onChange={(event) => setDraft((current) => ({ ...current, description: event.target.value }))}
             />
             <select
               aria-label="Project status"
+              disabled={!apiReady}
               value={draft.status}
               onChange={(event) => setDraft((current) => ({ ...current, status: event.target.value }))}
             >
               {statuses.map((status) => <option key={status}>{status}</option>)}
             </select>
-            <button type="submit">Create</button>
+            <button type="submit" disabled={!apiReady}>Create</button>
           </form>
         )}
 

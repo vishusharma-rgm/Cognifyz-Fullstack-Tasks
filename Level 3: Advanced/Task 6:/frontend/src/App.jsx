@@ -10,6 +10,12 @@ const statuses = ["Backlog", "In Progress", "Done"];
 const emptyAuthForm = { name: "", email: "", password: "" };
 const emptyProject = { title: "", description: "", status: "In Progress" };
 
+function apiErrorMessage(error, fallback) {
+  if (error.response?.data?.message) return error.response.data.message;
+  if (error.request) return "Start the Task 6 API and MongoDB.";
+  return fallback;
+}
+
 function App() {
   const [authMode, setAuthMode] = useState("login");
   const [authForm, setAuthForm] = useState(emptyAuthForm);
@@ -45,7 +51,7 @@ function App() {
       const response = await axios.get(`${API_URL}/projects`, axiosConfig);
       setProjects(response.data.data || []);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Session expired. Please sign in again.");
+      toast.error(apiErrorMessage(error, "Session expired. Please sign in again."));
       logout();
     }
   }
@@ -91,7 +97,7 @@ function App() {
       }, 260);
     } catch (error) {
       const fallback = authMode === "login" ? "Invalid credentials" : "Unable to create account";
-      toast.error(error.response?.data?.message || fallback);
+      toast.error(apiErrorMessage(error, fallback));
     }
   }
 
@@ -113,7 +119,7 @@ function App() {
       toast.success("Project added");
       loadProjects();
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to add project");
+      toast.error(apiErrorMessage(error, "Unable to add project"));
     }
   }
 
@@ -124,7 +130,7 @@ function App() {
     try {
       await axios.put(`${API_URL}/projects/${project._id}`, nextProject, axiosConfig);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to save project");
+      toast.error(apiErrorMessage(error, "Unable to save project"));
       loadProjects();
     }
   }
@@ -137,7 +143,7 @@ function App() {
     try {
       await axios.put(`${API_URL}/projects/${project._id}`, project, axiosConfig);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to save project");
+      toast.error(apiErrorMessage(error, "Unable to save project"));
       loadProjects();
     }
   }
@@ -148,7 +154,7 @@ function App() {
       toast.success("Project deleted");
       loadProjects();
     } catch (error) {
-      toast.error(error.response?.data?.message || "Unable to delete project");
+      toast.error(apiErrorMessage(error, "Unable to delete project"));
     }
   }
 
